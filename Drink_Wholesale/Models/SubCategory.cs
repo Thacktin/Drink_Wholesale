@@ -10,5 +10,6 @@ namespace Drink_Wholesale.Models
         public int CategoryId { get; set; }
         [Required]
         public virtual Category Category { get; set; }
+        public virtual List<Product> Products { get; set; }
     }
 }
