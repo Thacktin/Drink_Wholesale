@@ -21,7 +21,7 @@ van));
 
 subcategory:
 	producer,artno,short.desc,netprice,brutprice
-	packaging sizes per product
+	#packaging sizes per product
 	Inventory
 	pagination ( 20)
-	sort by price and producer name(assc/desc)
+	#sort by price and producer name(assc/desc)

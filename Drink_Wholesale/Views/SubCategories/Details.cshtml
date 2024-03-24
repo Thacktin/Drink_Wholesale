@@ -43,7 +43,10 @@
                 Nettó ár
             </th>
             <th>
-                <a asp-action="Details" asp-route-sortOrder="@ViewData["PriceSortParam"]">Brutóó ár</a>
+                <a asp-action="Details" asp-route-sortOrder="@ViewData["PriceSortParam"]">Bruttó ár</a>
+            </th>
+            <th>
+                Elérhető kiszerelések
             </th>
         </tr>
     </thead>
@@ -68,6 +71,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.NetPrice) Ft
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Packaging)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

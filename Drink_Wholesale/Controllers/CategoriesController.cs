@@ -33,7 +33,7 @@ namespace Drink_Wholesale.Controllers
                 return NotFound();
             }
 
-            var category = _service.GetSubCategoryById(id);
+            var category = _service.GetCategoryById(id);
 
             if (category == null)
             {
