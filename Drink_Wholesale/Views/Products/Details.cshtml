@@ -1,4 +1,4 @@
-﻿@model Drink_Wholesale.Models.Product
+﻿@model Drink_Wholesale.Models.ProductViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -28,17 +28,23 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Description)
         </dd>
-        <dt class = "col-sm-2">
+@*         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.SubCategory)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.SubCategory.Name)
-        </dd>
+        </dd> *@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.NetPrice)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NetPrice)
+            @Html.DisplayFor(model => model.NetPrice) Ft
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.GrossPrice)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.GrossPrice) Ft
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Inventory)

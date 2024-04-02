@@ -1,10 +1,15 @@
-﻿@model Drink_Wholesale.Models.SubCategory
+﻿@* @model Drink_Wholesale.Models.SubCategory *@
+@model X.PagedList.PagedList<Product>
 
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>@Html.DisplayFor(model => model.Name)</h1>
+@* <h1>@Html.DisplayFor(model => model.Name)</h1> *@
 
 @* <div>
     <h4>SubCategory</h4>
@@ -24,67 +29,73 @@
         </dd>
     </dl>
 </div> *@
+
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                Leírás
-            </th>
-            <th>
-                <a asp-action="Details" asp-route-sortOrder="@ViewData["ProducerSortParam"]" >Gyártó</a>
-            </th>
-            <th>
-                Cikkszám
-            </th>
-            <th>
-                Raktárkészlet
-            </th>
-            <th>
-                Nettó ár
-            </th>
-            <th>
-                <a asp-action="Details" asp-route-sortOrder="@ViewData["PriceSortParam"]">Bruttó ár</a>
-            </th>
-            <th>
-                Elérhető kiszerelések
-            </th>
-        </tr>
+    <tr>
+        <th>
+            Leírás
+        </th>
+        <th>
+            <a asp-action="Details" asp-route-sortOrder="@ViewData["ProducerSortParam"]" >Gyártó</a>
+        </th>
+        <th>
+            Cikkszám
+        </th>
+        <th>
+            Raktárkészlet
+        </th>
+        <th>
+            Nettó ár
+        </th>
+        <th>
+            <a asp-action="Details" asp-route-sortOrder="@ViewData["PriceSortParam"]">Bruttó ár</a>
+        </th>
+        <th>
+            Elérhető kiszerelések
+        </th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Products)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Producer)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ArtNo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Inventory)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NetPrice) Ft
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NetPrice) Ft
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Packaging)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Producer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ArtNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Inventory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NetPrice) Ft
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NetPrice) Ft
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Packaging)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+    }
     </tbody>
 </table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Details",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    @* <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> | *@
     <a asp-action="Index">Back to List</a>
 </div>

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Drink_Wholesale.Models;
-using Drink_Wholesale.Servicies;
+using Drink_Wholesale.Services;
 
 namespace Drink_Wholesale.Controllers
 {
@@ -40,7 +40,8 @@ namespace Drink_Wholesale.Controllers
                 return NotFound();
             }
 
-            return View(product);
+            ProductViewModel productViewModel = new ProductViewModel(product);
+            return View(productViewModel);
         }
 
         // GET: Products/Create

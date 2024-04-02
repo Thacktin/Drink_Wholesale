@@ -67,6 +67,26 @@ namespace Drink_Wholesale.Models
                 },
                 new Product()
                 {
+                    ArtNo = 1256,
+                    Description = "Borsodi sör 0,5l",
+                    Inventory = 99,
+                    NetPrice = 280,
+                    Packaging = Packaging.Single | Packaging.ShrinkWrap | Packaging.Tray,
+                    SubCategoryId = 1,
+                    Producer = "Borsodi Hungária kft"
+                },
+                new Product()
+                {
+                    ArtNo = 5869,
+                    Description = "Arany fácán",
+                    Inventory = 56,
+                    NetPrice = 3400,
+                    Packaging = Packaging.Single ,
+                    SubCategoryId = 1,
+                    Producer = "kft"
+                },
+                new Product()
+                {
                     ArtNo = 1255,
                     Description = "Dankó koccintós fehér bor",
                     Inventory = 45,
