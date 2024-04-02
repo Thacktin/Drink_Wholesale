@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Drink_Wholesale.Models;
-using Drink_Wholesale.Services;
+using Drink_Wholesale.Servicies;
 
 namespace Drink_Wholesale.Controllers
 {

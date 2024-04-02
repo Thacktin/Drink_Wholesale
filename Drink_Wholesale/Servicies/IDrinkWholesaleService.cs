@@ -1,6 +1,6 @@
 ﻿using Drink_Wholesale.Models;
 
-namespace Drink_Wholesale.Services;
+namespace Drink_Wholesale.Servicies;
 
 public interface IDrinkWholesaleService
 {

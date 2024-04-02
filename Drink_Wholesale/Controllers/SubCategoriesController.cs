@@ -6,8 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Drink_Wholesale.Models;
-using Drink_Wholesale.Services;
-using X.PagedList;
+using Drink_Wholesale.Servicies;
 
 namespace Drink_Wholesale.Controllers
 {
@@ -29,7 +28,7 @@ namespace Drink_Wholesale.Controllers
         }
 
         // GET: SubCategories/Details/5
-        public async Task<IActionResult> Details(int id,int? page, SortOrder sortOrder = SortOrder.PRODUCER_ASC )
+        public async Task<IActionResult> Details(int id, SortOrder sortOrder = SortOrder.PRODUCER_ASC )
         {
             try
             {
@@ -52,14 +51,7 @@ namespace Drink_Wholesale.Controllers
                         subCategory.Products.OrderBy(i => i.NetPrice).ToList();
                         break;
                 }
-
-                int pageSize = 2;
-                int pageNumber = page ?? 1;
-                //return View(subCategory);
-                //var OnepageOfProducts = subCategory.Products.ToPagedList(pageNumber, pageSize);
-                //ViewBag.OnePageOfProducts = OnepageOfProducts;
-                //SubCategoryViewModel subCategoryViewModel = new SubCategoryViewModel(subCategory, );
-                return View(subCategory.Products.ToPagedList(pageNumber,pageSize));
+                return View(subCategory);
             }
             catch (Exception e)
             {

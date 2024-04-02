@@ -23,11 +23,10 @@ namespace Drink_Wholesale.Models
         [Required]
         public virtual SubCategory SubCategory { get; set; }
         [Column(TypeName ="money")]
+        [UIHint("GrossPriceDisplay")]
         public decimal NetPrice { get; set; }
         public int Inventory { get; set; }
         [UIHint("PackagingDisplay")]
         public Packaging Packaging { get; set; }
-
-        public virtual List<Order> Orders { get; } = [];
     }
 }

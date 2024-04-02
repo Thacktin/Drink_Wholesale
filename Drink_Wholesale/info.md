@@ -20,7 +20,7 @@ van));
 
 
 subcategory:
-	-producer,artno,short.desc,netprice,brutprice
+	producer,artno,short.desc,netprice,brutprice
 	#packaging sizes per product
 	Inventory
 	pagination ( 20)
