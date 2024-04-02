@@ -1,0 +1,29 @@
+[33mcommit 287610a5fd86ba6b206123dd04a8a921708e6689[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: BDomonkos <balintdomika@gmail.com>
+Date:   Tue Apr 2 16:39:52 2024 +0200
+
+    Pagination and Order model/table
+
+[33mcommit 80c298a3ce04eade9fbc442eb50fc8f261f484d2[m
+Author: BDomonkos <balintdomika@gmail.com>
+Date:   Sun Mar 24 16:03:07 2024 +0100
+
+    Custom package type display
+
+[33mcommit 59257a168f9c70dc5cee3558094b02c17a841611[m
+Author: BDomonkos <balintdomika@gmail.com>
+Date:   Fri Mar 22 09:00:49 2024 +0100
+
+    Added controllers and basic display for data
+
+[33mcommit e9c281a9e859554dc561424092815295183dfea7[m
+Author: BDomonkos <balintdomika@gmail.com>
+Date:   Thu Mar 21 15:09:03 2024 +0100
+
+    Add project files.
+
+[33mcommit 37fcb63891cb3039fc53b166ec8f8393258ba67f[m
+Author: BDomonkos <balintdomika@gmail.com>
+Date:   Thu Mar 21 15:08:54 2024 +0100
+
+    Add .gitattributes, .gitignore, and README.md.

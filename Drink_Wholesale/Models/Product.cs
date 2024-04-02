@@ -28,5 +28,7 @@ namespace Drink_Wholesale.Models
         public int Inventory { get; set; }
         [UIHint("PackagingDisplay")]
         public Packaging Packaging { get; set; }
+
+        public virtual List<Order> Orders { get; set; }
     }
 }
