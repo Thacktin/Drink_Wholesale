@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Drink_Wholesale.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Drink_Wholesale.Models;
-using Drink_Wholesale.Servicies;
+using Drink_Wholesale.Services;
+using Drink_Wholesale.ViewModels;
 
 namespace Drink_Wholesale.Controllers
 {
@@ -27,6 +28,7 @@ namespace Drink_Wholesale.Controllers
         }
 
         // GET: Products/Details/5
+        [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
             if (id == null)
@@ -40,8 +42,47 @@ namespace Drink_Wholesale.Controllers
                 return NotFound();
             }
 
-            return View(product);
+            ProductViewModel productViewModel = new ProductViewModel(product);
+            return View(productViewModel);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Details(int id, ProductViewModel productViewModel)
+        {
+            var cart = SessionExtensions.Get<List<(int, Packaging)>>(HttpContext.Session, "cart");
+            cart ??= new List<(int,Packaging)>();
+
+            if (cart.Contains((productViewModel.ArtNo, productViewModel.Packaging)))
+            {
+                ModelState.AddModelError("packagingExists", "A termék már szerepel a kosárban máás kiszerelésben");
+            }
+
+            int selectedSize = 12;
+            int quantity = 2;
+
+            //if (productViewModel.Inventory > selectedSize * quantity)
+            //{
+            //    cart.Add((id, productViewModel.Packaging));
+            //}
+            cart.Add((id, productViewModel.SelectedPackaging));
+            SessionExtensions.Set<List<(int,Packaging)>>(HttpContext.Session, "cart",cart);
+
+            return View(productViewModel);
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //var product = _service.GetProductById(id);
+            //if (product == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //ProductViewModel productViewModel = new ProductViewModel(product);
+            //return View(productViewModel);
+        }
+
 
         // GET: Products/Create
         //public IActionResult Create()

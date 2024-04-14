@@ -1,5 +1,5 @@
 using Drink_Wholesale.Models;
-using Drink_Wholesale.Servicies;
+using Drink_Wholesale.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Drink_Wholesale
@@ -38,6 +38,7 @@ namespace Drink_Wholesale
                 options.UseLazyLoadingProxies();
             });
             builder.Services.AddTransient<IDrinkWholesaleService, DrinkWholesaleService>();
+            builder.Services.AddSession();
 
             var app = builder.Build();
 
@@ -53,7 +54,7 @@ namespace Drink_Wholesale
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthorization();
 
             app.MapControllerRoute(

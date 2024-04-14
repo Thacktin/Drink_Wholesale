@@ -1,4 +1,5 @@
-﻿@model Drink_Wholesale.Models.Product
+﻿@using Drink_Wholesale.ViewModels
+@model Drink_Wholesale.ViewModels.ProductViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -28,18 +29,25 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Description)
         </dd>
-        <dt class = "col-sm-2">
+        @*         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.SubCategory)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.SubCategory.Name)
-        </dd>
+        </dd> *@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.NetPrice)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.NetPrice)
         </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.GrossPrice)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.GrossPrice)
+        </dd>
+
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Inventory)
         </dt>
@@ -53,8 +61,19 @@
             @Html.DisplayFor(model => model.Packaging)
         </dd>
     </dl>
+    
+    @using (Html.BeginForm())
+    {
+        @*         <div>
+            @Html.TextBoxFor()
+        </div> *@
+        //<select asp-for="Packaging" asp-items="Html.GetEnumSelectList<Packaging>()"></select>
+        @Html.DropDownListFor(m=> m.SelectedPackaging,new SelectList(Enum.GetValues(typeof(Packaging))))
+        <input type="submit" value="order"/>
+    }
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    @* <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> | *@
     <a asp-action="Index">Back to List</a>
+
 </div>

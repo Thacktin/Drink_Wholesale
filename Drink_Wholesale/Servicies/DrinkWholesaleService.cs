@@ -1,6 +1,6 @@
 ﻿using Drink_Wholesale.Models;
 
-namespace Drink_Wholesale.Servicies
+namespace Drink_Wholesale.Services
 {
     public class DrinkWholesaleService : IDrinkWholesaleService
     {

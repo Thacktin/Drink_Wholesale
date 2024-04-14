@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Drink_Wholesale.Models;
-using Drink_Wholesale.Servicies;
+using Drink_Wholesale.Services;
+using X.PagedList;
 
 namespace Drink_Wholesale.Controllers
 {
@@ -28,7 +29,7 @@ namespace Drink_Wholesale.Controllers
         }
 
         // GET: SubCategories/Details/5
-        public async Task<IActionResult> Details(int id, SortOrder sortOrder = SortOrder.PRODUCER_ASC )
+        public async Task<IActionResult> Details(int id, int? page, SortOrder sortOrder = SortOrder.PRODUCER_ASC )
         {
             try
             {
@@ -36,33 +37,39 @@ namespace Drink_Wholesale.Controllers
                 ViewData["PriceSortParam"] = sortOrder == SortOrder.PRICE_DESC ? SortOrder.PRICE_ASC : SortOrder.PRICE_DESC;
                 SubCategory subCategory = _service.GetSubCategoryById(id);
 
+                if (subCategory == null)
+                {
+                    return NotFound();
+                }
+
+                ViewData["Name"] = subCategory.Name;
+                List<Product> products = null;
                 switch (sortOrder)
                 {
                     case SortOrder.PRODUCER_ASC:
-                        subCategory.Products.OrderByDescending(i => i.Producer).ToList();
+                       products =  subCategory.Products.OrderByDescending(i => i.Producer).ToList();
                         break;
                     case SortOrder.PRODUCER_DESC:
-                        subCategory.Products.OrderBy(i => i.Producer).ToList();
+                        products = subCategory.Products.OrderBy(i => i.Producer).ToList();
                         break;
                     case SortOrder.PRICE_ASC:
-                        subCategory.Products.OrderByDescending(i => i.NetPrice).ToList();
+                        products = subCategory.Products.OrderByDescending(i => i.NetPrice).ToList();
                         break;
                     case SortOrder.PRICE_DESC:
-                        subCategory.Products.OrderBy(i => i.NetPrice).ToList();
+                        products = subCategory.Products.OrderBy(i => i.NetPrice).ToList();
                         break;
                 }
-                return View(subCategory);
+
+                int pageSize = 2;
+                int pageNumber = (page ?? 1);
+                return View(products.ToPagedList(pageNumber,pageSize));
             }
             catch (Exception e)
             {
 
                 return NotFound();
             }
-            //var subCategory =  _service.GetSubCategoryById(id);
-            //if (subCategory == null)
-            //{
-            //    return NotFound();
-            //}
+
 
 
         }

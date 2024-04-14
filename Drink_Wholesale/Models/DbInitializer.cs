@@ -60,7 +60,47 @@ namespace Drink_Wholesale.Models
                     ArtNo = 1245,
                     Description = "Heineken",
                     Inventory = 132,
-                    NetPrice = 3400,
+                    NetPrice = 340,
+                    Packaging = Packaging.Single | Packaging.ShrinkWrap| Packaging.Crate | Packaging.Tray,
+                    SubCategoryId = 1,
+                    Producer = "Heineken Hungária kft"
+                },
+                new Product()
+                {
+                    ArtNo = 1246,
+                    Description = "Borsodi",
+                    Inventory = 88,
+                    NetPrice = 280,
+                    Packaging = Packaging.Single | Packaging.ShrinkWrap |  Packaging.Tray,
+                    SubCategoryId = 1,
+                    Producer = "Borsodi sörgyár kft"
+                },
+                new Product()
+                {
+                    ArtNo = 1247,
+                    Description = "Arany fácán",
+                    Inventory = 36,
+                    NetPrice = 250,
+                    Packaging = Packaging.Single | Packaging.ShrinkWrap| Packaging.Crate | Packaging.Tray,
+                    SubCategoryId = 1,
+                    Producer = "Heineken Hungária kft"
+                },
+                new Product()
+                {
+                    ArtNo = 1248,
+                    Description = "Arany fácán2",
+                    Inventory = 36,
+                    NetPrice = 250,
+                    Packaging = Packaging.Single | Packaging.ShrinkWrap| Packaging.Crate | Packaging.Tray,
+                    SubCategoryId = 1,
+                    Producer = "Heineken Hungária kft"
+                },            
+                new Product()
+                {
+                    ArtNo = 1249,
+                    Description = "Arany fácán3",
+                    Inventory = 36,
+                    NetPrice = 250,
                     Packaging = Packaging.Single | Packaging.ShrinkWrap| Packaging.Crate | Packaging.Tray,
                     SubCategoryId = 1,
                     Producer = "Heineken Hungária kft"
