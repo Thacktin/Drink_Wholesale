@@ -14,6 +14,6 @@ namespace Drink_Wholesale.Models
         public string Email { get; set; }
 
         public virtual List<Product> Products { get; set; }
-        public bool isFulfilled  { get; set; }
+        public bool IsFulfilled  { get; set; }
     }
 }

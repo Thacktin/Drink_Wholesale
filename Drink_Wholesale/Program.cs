@@ -30,14 +30,13 @@ namespace Drink_Wholesale
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<DrinkWholesaleDbContext>(options =>
-            {
-
-
+            { 
                 IConfigurationRoot configuration = builder.Configuration;
                 options.UseSqlServer(configuration.GetConnectionString("SqlServerConnection"));
                 options.UseLazyLoadingProxies();
             });
             builder.Services.AddTransient<IDrinkWholesaleService, DrinkWholesaleService>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddSession();
 
             var app = builder.Build();

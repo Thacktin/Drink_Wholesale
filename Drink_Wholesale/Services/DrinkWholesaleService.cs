@@ -1,4 +1,5 @@
 ﻿using Drink_Wholesale.Models;
+using Drink_Wholesale.ViewModels;
 
 namespace Drink_Wholesale.Services
 {
@@ -119,7 +120,7 @@ namespace Drink_Wholesale.Services
         {
             if (product == null)
             {
-               return;
+                return;
             }
             _context.Products.Add(product);
             _context.SaveChanges();
@@ -144,7 +145,7 @@ namespace Drink_Wholesale.Services
 
         public void UpdateProduct(Product product, int id)
         {
-            var oldProduct = _context.Products.Single(p=> p.Id == id);
+            var oldProduct = _context.Products.Single(p => p.Id == id);
 
             if (oldProduct == null)
             {
@@ -163,13 +164,23 @@ namespace Drink_Wholesale.Services
 
         public void DeleteProduct(int id)
         {
-            var product = _context.Products.Single(p=> p.Id == id);
+            var product = _context.Products.Single(p => p.Id == id);
             if (product == null)
             {
                 return;
             }
             _context.Products.Remove(product);
             _context.SaveChanges();
+        }
+
+        public ProductViewModel NewProductViewModel(int id)
+        {
+            var product = _context.Products.Single(p => p.Id == id);
+            return new ProductViewModel
+            {
+                Product = product,
+                //GrossPrice = product.NetPrice * 1.27m
+            };
         }
         #endregion
 

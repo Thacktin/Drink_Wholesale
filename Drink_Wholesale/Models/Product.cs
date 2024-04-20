@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Drink_Wholesale.Models
 {
+    [Flags]
     public enum Packaging
     {
         Single = 0,

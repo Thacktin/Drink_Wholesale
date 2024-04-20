@@ -21,7 +21,7 @@ namespace Drink_Wholesale.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var drinkWholesaleDbContext = _service.GetAllProducts();
             return View(drinkWholesaleDbContext);
@@ -29,7 +29,7 @@ namespace Drink_Wholesale.Controllers
 
         // GET: Products/Details/5
         [HttpGet]
-        public async Task<IActionResult> Details(int id)
+        public IActionResult Details(int id)
         {
             if (id == null)
             {
@@ -42,17 +42,18 @@ namespace Drink_Wholesale.Controllers
                 return NotFound();
             }
 
-            ProductViewModel productViewModel = new ProductViewModel(product);
+            ProductViewModel productViewModel = _service.NewProductViewModel(id);
             return View(productViewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Details(int id, ProductViewModel productViewModel)
+        public IActionResult Details(int id, ProductViewModel productViewModel, Int32 productId)
         {
+            productViewModel.Product = _service.GetProductById(productId);
             var cart = SessionExtensions.Get<List<(int, Packaging)>>(HttpContext.Session, "cart");
             cart ??= new List<(int,Packaging)>();
 
-            if (cart.Contains((productViewModel.ArtNo, productViewModel.Packaging)))
+            if (cart.Contains((productViewModel.Product.ArtNo, productViewModel.Product.Packaging)))
             {
                 ModelState.AddModelError("packagingExists", "A termék már szerepel a kosárban máás kiszerelésben");
             }

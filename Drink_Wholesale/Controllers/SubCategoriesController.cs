@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Drink_Wholesale.Models;
 using Drink_Wholesale.Services;
+using Drink_Wholesale.ViewModels;
 using X.PagedList;
 
 namespace Drink_Wholesale.Controllers
@@ -22,14 +23,14 @@ namespace Drink_Wholesale.Controllers
         }
 
         // GET: SubCategories
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var drinkWholesaleDbContext = _service.GetSubCategories();
             return View(drinkWholesaleDbContext);
         }
 
         // GET: SubCategories/Details/5
-        public async Task<IActionResult> Details(int id, int? page, SortOrder sortOrder = SortOrder.PRODUCER_ASC )
+        public IActionResult Details(int id, int? page, SortOrder sortOrder = SortOrder.PRODUCER_ASC )
         {
             try
             {
@@ -43,20 +44,21 @@ namespace Drink_Wholesale.Controllers
                 }
 
                 ViewData["Name"] = subCategory.Name;
-                List<Product> products = null;
+                List<ProductViewModel> products = null;
                 switch (sortOrder)
                 {
                     case SortOrder.PRODUCER_ASC:
-                       products =  subCategory.Products.OrderByDescending(i => i.Producer).ToList();
+                       //products =  subCategory.Products.OrderByDescending(i => i.Producer).ToList();
+                       products =  subCategory.Products.Select(p=> _service.NewProductViewModel(p.Id)).OrderBy(p=> p.Product.Producer).ToList();
                         break;
                     case SortOrder.PRODUCER_DESC:
-                        products = subCategory.Products.OrderBy(i => i.Producer).ToList();
+                        products = subCategory.Products.Select(p => _service.NewProductViewModel(p.Id)).OrderByDescending(p => p.Product.Producer).ToList();
                         break;
                     case SortOrder.PRICE_ASC:
-                        products = subCategory.Products.OrderByDescending(i => i.NetPrice).ToList();
+                        products = subCategory.Products.Select(p => _service.NewProductViewModel(p.Id)).OrderBy(p => p.Product.NetPrice).ToList();
                         break;
                     case SortOrder.PRICE_DESC:
-                        products = subCategory.Products.OrderBy(i => i.NetPrice).ToList();
+                        products = subCategory.Products.Select(p => _service.NewProductViewModel(p.Id)).OrderByDescending(p => p.Product.NetPrice).ToList();
                         break;
                 }
 
@@ -64,7 +66,7 @@ namespace Drink_Wholesale.Controllers
                 int pageNumber = (page ?? 1);
                 return View(products.ToPagedList(pageNumber,pageSize));
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
                 return NotFound();

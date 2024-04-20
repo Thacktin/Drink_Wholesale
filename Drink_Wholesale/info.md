@@ -25,3 +25,11 @@ subcategory:
 	-Inventory
 	-pagination ( 20)
 	#sort by price and producer name(assc/desc)
+
+
+
+Cart:
+	-Product/product id
+	-Quantity
+	-Packaging
+

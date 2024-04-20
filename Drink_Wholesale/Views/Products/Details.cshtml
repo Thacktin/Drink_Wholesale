@@ -1,4 +1,5 @@
 ﻿@using Drink_Wholesale.ViewModels
+@using Drink_Wholesale.Helpers
 @model Drink_Wholesale.ViewModels.ProductViewModel
 
 @{
@@ -11,69 +12,77 @@
     <h4>Product</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Producer)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.Producer)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Producer)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.Producer)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ArtNo)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.ArtNo)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ArtNo)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.ArtNo)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.Description)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.Description)
         </dd>
         @*         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SubCategory)
+        @Html.DisplayNameFor(model => model.SubCategory)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SubCategory.Name)
+        @Html.DisplayFor(model => model.SubCategory.Name)
         </dd> *@
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NetPrice)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.NetPrice)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NetPrice)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.NetPrice)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.GrossPrice)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.GrossPrice)
         </dd>
 
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Inventory)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.Inventory)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Inventory)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.Inventory)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Packaging)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.Packaging)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Packaging)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.Packaging)
         </dd>
     </dl>
-    
-    @using (Html.BeginForm())
+
+@*     @using (Html.BeginForm(routeValues: new RouteValueDictionary { { "product", Model.Product } }))
     {
         @*         <div>
-            @Html.TextBoxFor()
-        </div> *@
-        //<select asp-for="Packaging" asp-items="Html.GetEnumSelectList<Packaging>()"></select>
-        @Html.DropDownListFor(m=> m.SelectedPackaging,new SelectList(Enum.GetValues(typeof(Packaging))))
-        <input type="submit" value="order"/>
-    }
+    @Html.TextBoxFor()
+    </div> *@
+        @* <select asp-for="Product.Packaging" asp-items="Html.GetEnumSelectList<Packaging>()"></select> 
+        @Html.DropDownListFor(m => m.SelectedPackaging, new SelectList(Enum.GetValues(typeof(Packaging))))
+
+        <input type="submit" value="order" />
+    } *@
+    
+    <form asp-controller="Products" asp-action="Details" asp-route-productId="@Model.Product.Id">
+        @* @Html.DropDownListFor(m => m.SelectedPackaging, new SelectList(Enum.GetValues(typeof(Packaging)))) *@
+        <input asp-for="Quantity" type="number"/>
+        <input type="submit" value="order" />
+        @Html.DropDownListFor(m=> m.SelectedPackaging, EnumHelpers.ToSelectList(EnumHelpers.ToEnumList(Model.Product.Packaging)))
+    </form>
 </div>
 <div>
     @* <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> | *@
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="SubCategories" asp-action="Details" asp-route-id="@Model.Product.SubCategoryId">Back to List</a>
 
 </div>
