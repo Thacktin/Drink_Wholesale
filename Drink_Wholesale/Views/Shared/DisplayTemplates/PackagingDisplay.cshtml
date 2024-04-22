@@ -9,11 +9,11 @@
     {
         var texts = new List<string>();
         if ((packagings & Packaging.ShrinkWrap) > 0)
-            texts.Add("zsugor");
+            texts.Add("zsugor(6db)");
         if ((packagings & Packaging.Tray) > 0)
-            texts.Add("tálca");
+            texts.Add("tálca(24db)");
         if ((packagings & Packaging.Crate) > 0)
-            texts.Add("rekesz");
+            texts.Add("rekesz(12db)");
         return string.Join(", ", texts);
     };
 }

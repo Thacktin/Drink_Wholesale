@@ -5,9 +5,10 @@ namespace Drink_Wholesale.Models
 {
     public class DrinkWholesaleDbContext : DbContext
     {
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<SubCategory> SubCategories { get; set; }
-        public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; } = null!;
+        public DbSet<SubCategory> SubCategories { get; set; } = null!;
+        public DbSet<Product> Products { get; set; } = null!;
+        public DbSet<Order> Orders { get; set; } = null!;
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{

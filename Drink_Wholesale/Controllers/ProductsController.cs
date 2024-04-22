@@ -14,10 +14,12 @@ namespace Drink_Wholesale.Controllers
     public class ProductsController : Controller
     {
         private readonly IDrinkWholesaleService _service;
+        private readonly IOrderService _orderService;
 
-        public ProductsController(IDrinkWholesaleService service)
+        public ProductsController(IDrinkWholesaleService service, IOrderService orderService)
         {
             _service = service;
+            _orderService = orderService;
         }
 
         // GET: Products
@@ -31,10 +33,10 @@ namespace Drink_Wholesale.Controllers
         [HttpGet]
         public IActionResult Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
 
             var product = _service.GetProductById(id);
             if (product == null)
@@ -47,27 +49,53 @@ namespace Drink_Wholesale.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Details(int id, ProductViewModel productViewModel, Int32 productId)
         {
             productViewModel.Product = _service.GetProductById(productId);
-            var cart = SessionExtensions.Get<List<(int, Packaging)>>(HttpContext.Session, "cart");
-            cart ??= new List<(int,Packaging)>();
 
-            if (cart.Contains((productViewModel.Product.ArtNo, productViewModel.Product.Packaging)))
+            if (productViewModel.Quantity < 1)
             {
-                ModelState.AddModelError("packagingExists", "A termék már szerepel a kosárban máás kiszerelésben");
+                ModelState.AddModelError("Quantity", "Min 1");
             }
 
-            int selectedSize = 12;
-            int quantity = 2;
+            bool good = (productViewModel.Product.Packaging & productViewModel.SelectedPackaging) == 0;
+            if ((productViewModel.Product.Packaging & productViewModel.SelectedPackaging) == 0 ^ productViewModel.SelectedPackaging == Packaging.Single) 
+            {
+                ModelState.AddModelError("SelectedPackaging", "A termék a megadott kiszerelésben nem elérhető");
+            }
+
+            if (productViewModel.Quantity * Helpers.EnumHelpers.PackagintToInt(productViewModel.SelectedPackaging)> productViewModel.Product.Inventory)
+            {
+                ModelState.AddModelError("Quantity", "A termékből nincs elég raktáron");
+            }
+            if (!ModelState.IsValid)
+            {
+                ViewData["OrderResult"] = "Hiba";
+                return View("Details", productViewModel);
+            }
+            
+            var cart = _orderService.GetCartViewModels(HttpContext.Session);
+            //cart ??= new List<(int,Packaging)>();
+
+            //if (cart.Contains((productViewModel.Product.ArtNo, productViewModel.Product.Packaging)))
+            //{
+            //    ModelState.AddModelError("packagingExists", "A termék már szerepel a kosárban máás kiszerelésben");
+            //}
+
+            //int selectedSize = 12;
+            //int quantity = 2;
 
             //if (productViewModel.Inventory > selectedSize * quantity)
             //{
             //    cart.Add((id, productViewModel.Packaging));
             //}
-            cart.Add((id, productViewModel.SelectedPackaging));
-            SessionExtensions.Set<List<(int,Packaging)>>(HttpContext.Session, "cart",cart);
-
+            //cart.Add((id, productViewModel.SelectedPackaging));
+            _orderService.AddItem(productViewModel, HttpContext.Session);
+            //SessionExtensions.Set<List<(int,Packaging)>>(HttpContext.Session, "cart",cart);
+            cart = _orderService.GetCartViewModels(HttpContext.Session);
+            ViewData["OrderResult"] = "A termék hozzáadva a kosárhoz";
+            
             return View(productViewModel);
             //if (id == null)
             //{

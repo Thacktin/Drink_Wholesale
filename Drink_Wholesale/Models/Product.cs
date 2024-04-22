@@ -15,20 +15,20 @@ namespace Drink_Wholesale.Models
     {
         [Key]
         public int Id { get; set; }
-        public string Producer { get; set; }
+        public string Producer { get; set; } = null!;
         public int ArtNo { get; set; }
 
         [DataType(DataType.MultilineText)]
-        public string Description { get; set; }
+        public String Description { get; set; } =null!;
         public int SubCategoryId { get; set; }
         [Required]
-        public virtual SubCategory SubCategory { get; set; }
+        public virtual SubCategory SubCategory { get; set; } = null!;
         [Column(TypeName ="money")]
         public decimal NetPrice { get; set; }
         public int Inventory { get; set; }
         [UIHint("PackagingDisplay")]
         public Packaging Packaging { get; set; }
 
-        public virtual List<Order> Orders { get; set; }
+        public virtual List<Order> Orders { get; set; } = null!;
     }
 }

@@ -44,21 +44,21 @@ namespace Drink_Wholesale.Controllers
                 }
 
                 ViewData["Name"] = subCategory.Name;
-                List<ProductViewModel> products = null;
+                List<ProductViewModel> products = new();
                 switch (sortOrder)
                 {
                     case SortOrder.PRODUCER_ASC:
                        //products =  subCategory.Products.OrderByDescending(i => i.Producer).ToList();
-                       products =  subCategory.Products.Select(p=> _service.NewProductViewModel(p.Id)).OrderBy(p=> p.Product.Producer).ToList();
+                       products =  subCategory.Products.Select(p=> _service.NewProductViewModel(p.Id)).OrderBy(p=> p.Product!.Producer).ToList();
                         break;
                     case SortOrder.PRODUCER_DESC:
-                        products = subCategory.Products.Select(p => _service.NewProductViewModel(p.Id)).OrderByDescending(p => p.Product.Producer).ToList();
+                        products = subCategory.Products.Select(p => _service.NewProductViewModel(p.Id)).OrderByDescending(p => p.Product!.Producer).ToList();
                         break;
                     case SortOrder.PRICE_ASC:
-                        products = subCategory.Products.Select(p => _service.NewProductViewModel(p.Id)).OrderBy(p => p.Product.NetPrice).ToList();
+                        products = subCategory.Products.Select(p => _service.NewProductViewModel(p.Id)).OrderBy(p => p.Product!.NetPrice).ToList();
                         break;
                     case SortOrder.PRICE_DESC:
-                        products = subCategory.Products.Select(p => _service.NewProductViewModel(p.Id)).OrderByDescending(p => p.Product.NetPrice).ToList();
+                        products = subCategory.Products.Select(p => _service.NewProductViewModel(p.Id)).OrderByDescending(p => p.Product!.NetPrice).ToList();
                         break;
                 }
 

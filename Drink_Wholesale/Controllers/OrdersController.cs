@@ -7,25 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Drink_Wholesale.Models;
 using Drink_Wholesale.Services;
+using Drink_Wholesale.ViewModels;
 
 namespace Drink_Wholesale.Controllers
 {
-    public class CategoriesController : Controller
+    public class OrdersController : Controller
     {
-        private readonly IDrinkWholesaleService _service;
+        private readonly IOrderService _service;
 
-        public CategoriesController(IDrinkWholesaleService service)
+        public OrdersController(IOrderService service)
         {
             _service = service;
         }
 
-        // GET: Categories
+        // GET: Orders
         public IActionResult Index()
         {
-            return View(_service.GetCategories());
+            return View( _service.GetOrders());
         }
 
-        // GET: Categories/Details/5
+        // GET: Orders/Details/5
         public IActionResult Details(int id)
         {
             //if (id == null)
@@ -33,39 +34,42 @@ namespace Drink_Wholesale.Controllers
             //    return NotFound();
             //}
 
-            var category = _service.GetCategoryById(id);
-
-            if (category == null)
+            var order = _service.GetOrderById(id);
+            if (order == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            return View(order);
         }
 
-        // GET: Categories/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
+        // GET: Orders/Create
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
 
-        //// POST: Categories/Create
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,Name")] Category category)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _service.Add(category);
-        //        await _service.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(category);
-        //}
+        // POST: Orders/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public  IActionResult Create( OrderViewModel orderView)
+        {
 
-        // GET: Categories/Edit/5
+            if (ModelState.IsValid)
+            {
+                Order order = new() { Email = orderView.Email, PhoneNumber = orderView.PhoneNumber, Name = orderView.Name };
+
+                order.Products = _service.GetCartItems(HttpContext.Session);
+                _service.AddOrder(order);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(orderView);
+        }
+
+        //// GET: Orders/Edit/5
         //public async Task<IActionResult> Edit(int? id)
         //{
         //    if (id == null)
@@ -73,22 +77,22 @@ namespace Drink_Wholesale.Controllers
         //        return NotFound();
         //    }
 
-        //    var category = await _service.Categories.FindAsync(id);
-        //    if (category == null)
+        //    var order = await _service.Orders.FindAsync(id);
+        //    if (order == null)
         //    {
         //        return NotFound();
         //    }
-        //    return View(category);
+        //    return View(order);
         //}
 
-        //// POST: Categories/Edit/5
+        //// POST: Orders/Edit/5
         //// To protect from overposting attacks, enable the specific properties you want to bind to.
         //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         //[HttpPost]
         //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Category category)
+        //public async Task<IActionResult> Edit(int id, [Bind("Id,Name,PhoneNumber,Email,IsFulfilled")] Order order)
         //{
-        //    if (id != category.Id)
+        //    if (id != order.Id)
         //    {
         //        return NotFound();
         //    }
@@ -97,12 +101,12 @@ namespace Drink_Wholesale.Controllers
         //    {
         //        try
         //        {
-        //            _service.Update(category);
+        //            _service.Update(order);
         //            await _service.SaveChangesAsync();
         //        }
         //        catch (DbUpdateConcurrencyException)
         //        {
-        //            if (!CategoryExists(category.Id))
+        //            if (!OrderExists(order.Id))
         //            {
         //                return NotFound();
         //            }
@@ -113,10 +117,10 @@ namespace Drink_Wholesale.Controllers
         //        }
         //        return RedirectToAction(nameof(Index));
         //    }
-        //    return View(category);
+        //    return View(order);
         //}
 
-        //// GET: Categories/Delete/5
+        //// GET: Orders/Delete/5
         //public async Task<IActionResult> Delete(int? id)
         //{
         //    if (id == null)
@@ -124,34 +128,34 @@ namespace Drink_Wholesale.Controllers
         //        return NotFound();
         //    }
 
-        //    var category = await _service.Categories
+        //    var order = await _service.Orders
         //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (category == null)
+        //    if (order == null)
         //    {
         //        return NotFound();
         //    }
 
-        //    return View(category);
+        //    return View(order);
         //}
 
-        //// POST: Categories/Delete/5
+        //// POST: Orders/Delete/5
         //[HttpPost, ActionName("Delete")]
         //[ValidateAntiForgeryToken]
         //public async Task<IActionResult> DeleteConfirmed(int id)
         //{
-        //    var category = await _service.Categories.FindAsync(id);
-        //    if (category != null)
+        //    var order = await _service.Orders.FindAsync(id);
+        //    if (order != null)
         //    {
-        //        _service.Categories.Remove(category);
+        //        _service.Orders.Remove(order);
         //    }
 
         //    await _service.SaveChangesAsync();
         //    return RedirectToAction(nameof(Index));
         //}
 
-        //private bool CategoryExists(int id)
+        //private bool OrderExists(int id)
         //{
-        //    return _service.Categories.Any(e => e.Id == id);
+        //    return _service.Orders.Any(e => e.Id == id);
         //}
     }
 }

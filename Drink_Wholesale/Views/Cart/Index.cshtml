@@ -1,0 +1,95 @@
+﻿@model IEnumerable<Drink_Wholesale.ViewModels.CartViewModel> 
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    <h1>Kosár</h1>
+    if (!Model.Any())
+    {
+        @:<h2>A kosár jelenleg üres</h2>
+    }
+    else
+    {
+
+
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>
+                    Leírás
+                </th>
+                <th>
+                   Gyártó
+                </th>
+                <th>
+                    Cikkszám
+                </th>
+                <th>
+                    Nettó egységár
+                </th>
+                <th>
+                    Bruttó egységár
+                </th>
+                <th>
+                    Darabszám
+                </th>
+                <th>
+                    Kiszerelés
+                </th>
+                <th>
+                    Összesen
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ViewModel.Product!.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ViewModel.Product!.Producer)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ViewModel.Product!.ArtNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ViewModel.Product!.NetPrice) Ft
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ViewModel.GrossPrice) Ft
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ViewModel.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ViewModel.SelectedPackaging)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalQuantity)
+                    </td>
+                    <td>
+                        @* <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> | *@
+                        <a asp-controller="Products" asp-action="Details" asp-route-id="@item.ViewModel.Product!.Id">Details</a> |
+                        <a asp-controller="Cart" asp-action="Delete" asp-route-id="@item.ViewModel.Product!.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <p>
+           Összesen(Nettó): <span> @ViewData["TotalNetPrice"] Ft</span>
+        </p>
+        <p>
+            Összesen(Bruttó): @ViewData["TotalGrossPrice"] Ft
+        </p>
+
+        <div>
+            <a asp-controller="Orders" asp-action="Create">Rendelés leadása</a>
+        </div>
+    }
+}

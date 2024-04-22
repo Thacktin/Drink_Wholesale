@@ -13,22 +13,22 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.Producer)
+            @Html.DisplayNameFor(model => model.Product!.Producer)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.Producer)
+            @Html.DisplayFor(model => model.Product!.Producer)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.ArtNo)
+            @Html.DisplayNameFor(model => model.Product!.ArtNo)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.ArtNo)
+            @Html.DisplayFor(model => model.Product!.ArtNo)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.Description)
+            @Html.DisplayNameFor(model => model.Product!.Description)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.Description)
+            @Html.DisplayFor(model => model.Product!.Description)
         </dd>
         @*         <dt class = "col-sm-2">
         @Html.DisplayNameFor(model => model.SubCategory)
@@ -37,10 +37,10 @@
         @Html.DisplayFor(model => model.SubCategory.Name)
         </dd> *@
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.NetPrice)
+            @Html.DisplayNameFor(model => model.Product!.NetPrice)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.NetPrice)
+            @Html.DisplayFor(model => model.Product!.NetPrice)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.GrossPrice)
@@ -50,36 +50,66 @@
         </dd>
 
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.Inventory)
+            @Html.DisplayNameFor(model => model.Product!.Inventory)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.Inventory)
+            @Html.DisplayFor(model => model.Product!.Inventory)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.Packaging)
+            @Html.DisplayNameFor(model => model.Product!.Packaging)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.Packaging)
+            @Html.DisplayFor(model => model.Product!.Packaging)
         </dd>
     </dl>
 
-@*     @using (Html.BeginForm(routeValues: new RouteValueDictionary { { "product", Model.Product } }))
+    @*     @using (Html.BeginForm(routeValues: new RouteValueDictionary { { "product", Model.Product } }))
     {
-        @*         <div>
+    @*         <div>
     @Html.TextBoxFor()
     </div> *@
-        @* <select asp-for="Product.Packaging" asp-items="Html.GetEnumSelectList<Packaging>()"></select> 
-        @Html.DropDownListFor(m => m.SelectedPackaging, new SelectList(Enum.GetValues(typeof(Packaging))))
+    @* <select asp-for="Product.Packaging" asp-items="Html.GetEnumSelectList<Packaging>()"></select>
+    @Html.DropDownListFor(m => m.SelectedPackaging, new SelectList(Enum.GetValues(typeof(Packaging))))
 
-        <input type="submit" value="order" />
+    <input type="submit" value="order" />
     } *@
-    
-    <form asp-controller="Products" asp-action="Details" asp-route-productId="@Model.Product.Id">
+
+    <form asp-controller="Products" asp-action="Details" asp-route-productId="@Model.Product!.Id">
         @* @Html.DropDownListFor(m => m.SelectedPackaging, new SelectList(Enum.GetValues(typeof(Packaging)))) *@
-        <input asp-for="Quantity" type="number"/>
-        <input type="submit" value="order" />
-        @Html.DropDownListFor(m=> m.SelectedPackaging, EnumHelpers.ToSelectList(EnumHelpers.ToEnumList(Model.Product.Packaging)))
+        <div asp-validation-summary="ModelOnly" class="failureNotification"></div>
+        <table>
+            <tbody>
+            <tr>
+                <th>Mennyiség: </th>
+                <td class="failureNotification">
+                    <input asp-for="Quantity" value="1" min="1" max="@Model.Product!.Inventory" type="number" />
+                    <span asp-validation-for="Quantity"></span>
+                </td>
+            </tr>
+            <tr>
+                <th>Kiszerelés</th>
+                <td>
+                    @Html.DropDownListFor(m => m.SelectedPackaging, EnumHelpers.ToSelectList(EnumHelpers.ToEnumList(Model.Product.Packaging)))
+                    <span asp-validation-for="SelectedPackaging"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="Order" />
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+
+
+
+
+
     </form>
+    <h2>
+        @ViewData["OrderResult"]
+    </h2>
 </div>
 <div>
     @* <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> | *@

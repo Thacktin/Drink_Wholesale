@@ -62,29 +62,29 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Product.Description)
+                    @Html.DisplayFor(modelItem => item.Product!.Description)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Product.Producer)
+                    @Html.DisplayFor(modelItem => item.Product!.Producer)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Product.ArtNo)
+                    @Html.DisplayFor(modelItem => item.Product!.ArtNo)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Product.Inventory)
+                    @Html.DisplayFor(modelItem => item.Product!.Inventory)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Product.NetPrice) Ft
+                    @Html.DisplayFor(modelItem => item.Product!.NetPrice) Ft
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.GrossPrice) Ft
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Product.Packaging)
+                    @Html.DisplayFor(modelItem => item.Product!.Packaging)
                 </td>
                 <td>
                     @* <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> | *@
-                    <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Product.Id">Details</a> |
+                    <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Product!.Id">Details</a> |
                     @* <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> *@
                 </td>
             </tr>
@@ -96,7 +96,7 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
 @Html.PagedListPager(Model, page => Url.Action("Details",
             new { page }), new PagedListRenderOptions{LinkToPreviousPageFormat = "Előző", LinkToNextPageFormat = "Következő", DelimiterBetweenPageNumbers = "|", })
 
-<h3>Default Paging Control</h3>
+@* <h3>Default Paging Control</h3>
 @Html.PagedListPager(Model, page => Url.Action("Details", new { page = page }))
 
 <h3>Minimal Paging Control</h3>
@@ -112,7 +112,7 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
 @Html.PagedListPager(Model, page => Url.Action("Details", new { page = page }), PagedListRenderOptions.PageNumbersOnly)
 
 <h3>Only Show Five Pages At A Time</h3>
-@Html.PagedListPager(Model, page => Url.Action("Details", new { page = page }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+@Html.PagedListPager(Model, page => Url.Action("Details", new { page = page }), PagedListRenderOptions.OnlyShowFivePagesAtATime) *@
 @* <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
