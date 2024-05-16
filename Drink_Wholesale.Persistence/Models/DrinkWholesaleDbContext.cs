@@ -1,5 +1,4 @@
-﻿using Drink_Wholesale.Services;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Drink_Wholesale.Models
 {

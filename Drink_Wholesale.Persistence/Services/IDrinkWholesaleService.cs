@@ -1,7 +1,6 @@
 ﻿using Drink_Wholesale.Models;
-using Drink_Wholesale.ViewModels;
 
-namespace Drink_Wholesale.Services;
+namespace Drink_Wholesale.Persistence.Services;
 
 public interface IDrinkWholesaleService
 {
@@ -24,5 +23,5 @@ public interface IDrinkWholesaleService
     Product GetProductById(int id);
     void UpdateProduct(Product product, int id);
     void DeleteProduct(int id);
-    ProductViewModel NewProductViewModel(int id);
+    //ProductViewModel NewProductViewModel(int id);
 }

@@ -1,7 +1,7 @@
 ﻿using Drink_Wholesale.Models;
-using Drink_Wholesale.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
-namespace Drink_Wholesale.Services
+namespace Drink_Wholesale.Persistence.Services
 {
     public class DrinkWholesaleService : IDrinkWholesaleService
     {
@@ -27,6 +27,7 @@ namespace Drink_Wholesale.Services
         {
             return _context.Categories
                 .Where(c => c.Name.Contains(name ?? ""))
+                .Include(c=> c.SubCategories)
                 .OrderBy(c => c.Name)
                 .ToList();
         }
@@ -86,6 +87,7 @@ namespace Drink_Wholesale.Services
         {
             return _context.SubCategories
                 .Where(s => s.Name.Contains(name ?? ""))
+                .Include(s=> s.Category)
                 .ToList();
         }
 
@@ -173,15 +175,15 @@ namespace Drink_Wholesale.Services
             _context.SaveChanges();
         }
 
-        public ProductViewModel NewProductViewModel(int id)
-        {
-            var product = _context.Products.Single(p => p.Id == id);
-            return new ProductViewModel
-            {
-                Product = product,
-                //GrossPrice = product.NetPrice * 1.27m
-            };
-        }
+        //public ProductViewModel NewProductViewModel(int id)
+        //{
+        //    var product = _context.Products.Single(p => p.Id == id);
+        //    return new ProductViewModel
+        //    {
+        //        Product = product,
+        //        //GrossPrice = product.NetPrice * 1.27m
+        //    };
+        //}
         #endregion
 
     }

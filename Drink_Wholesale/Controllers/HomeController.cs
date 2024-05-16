@@ -1,8 +1,8 @@
-using Drink_Wholesale.Models;
-using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Drink_Wholesale.Web.Models;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Drink_Wholesale.Controllers
+namespace Drink_Wholesale.Web.Controllers
 {
     public class HomeController : Controller
     {

@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Drink_Wholesale.Services.OrderService">
+    <Position X="2" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAQAiAEAABAAQAAAAAAAAhABEAIAEAEAAAAAAAAA=</HashCode>
+      <FileName>Services\OrderService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_context" />
+      <Field Name="_service" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="_cart" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Drink_Wholesale.Services.DrinkWholesaleService">
+    <Position X="4.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAcABAAAJACCYAiAAQIACAAAAACABAAAAQA=</HashCode>
+      <FileName>Services\DrinkWholesaleService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Drink_Wholesale.Models.Category">
+    <Position X="4.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Models\Category.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="SubCategories" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Drink_Wholesale.Models.CartItem">
+    <Position X="12.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAACAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAgAAAAAA=</HashCode>
+      <FileName>Models\CartItem.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Product" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Drink_Wholesale.Models.Order">
+    <Position X="14.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAACAACAAAAAAAAAAQAQAAAAAAAACAAAAAAAAAAQ=</HashCode>
+      <FileName>Models\Order.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Products" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Drink_Wholesale.Models.Product">
+    <Position X="10" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAECAAAAAAAgAAAAAAAAAAAACkAQCAQAAAAAAgAAAAA=</HashCode>
+      <FileName>Models\Product.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="SubCategory" />
+      <Property Name="Packaging" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Orders" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Drink_Wholesale.Models.SubCategory">
+    <Position X="7.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAgAAAAAAAAQAAAAAAAAAAAAAAAAACAQ=</HashCode>
+      <FileName>Models\SubCategory.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Category" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Products" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Drink_Wholesale.Controllers.CategoriesController">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAQAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\CategoriesController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_service" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Drink_Wholesale.Controllers.HomeController">
+    <Position X="17.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAIAAAAQAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\HomeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Drink_Wholesale.Controllers.OrdersController">
+    <Position X="12.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAQAAAAAAAAAAAAAEAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\OrdersController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_service" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Drink_Wholesale.Controllers.CartController">
+    <Position X="18.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAEAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\CartController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_service" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Drink_Wholesale.Controllers.SubCategoriesController">
+    <Position X="10" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAQAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\SubCategoriesController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_service" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Drink_Wholesale.ViewModels.ProductViewModel">
+    <Position X="11.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAEAAAAAAAgAAAgAAAAAA=</HashCode>
+      <FileName>ViewModels\ProductViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Product" />
+      <Property Name="SelectedPackaging" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Drink_Wholesale.ViewModels.OrderViewModel">
+    <Position X="10.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAQAQAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\OrderViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Drink_Wholesale.ViewModels.CartViewModel">
+    <Position X="13.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAQAQAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\CartViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ViewModel" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Drink_Wholesale.Models.DrinkWholesaleDbContext">
+    <Position X="0.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAQAAQ=</HashCode>
+      <FileName>Models\DrinkWholesaleDbContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Drink_Wholesale.Controllers.ProductsController">
+    <Position X="11.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAQAAAAAAAAAAAAAAAAACEAAAAAAAA=</HashCode>
+      <FileName>Controllers\ProductsController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_orderService" />
+      <Field Name="_service" />
+    </ShowAsAssociation>
+  </Class>
+  <Interface Name="Drink_Wholesale.Services.IOrderService">
+    <Position X="15" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAQAiAAAAAAAAAAAAAAAAgABEAIAAAEAAAAAAAAA=</HashCode>
+      <FileName>Services\IOrderService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Drink_Wholesale.Services.IDrinkWholesaleService">
+    <Position X="6.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAcAAAAAJACCYAiAAQIACAAAAACABAAAAQA=</HashCode>
+      <FileName>Services\IDrinkWholesaleService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Drink_Wholesale.Models.Packaging">
+    <Position X="8" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAABAAAAAAAACAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Product.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Drink_Wholesale.Controllers.SortOrder">
+    <Position X="15.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAAEAAAABAAAAA=</HashCode>
+      <FileName>Controllers\SubCategoriesController.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

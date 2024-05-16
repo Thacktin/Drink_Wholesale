@@ -17,11 +17,11 @@ namespace Drink_Wholesale.Models
             {
                 new Category()
                 {
-                    Name = "Alcoholic"
+                    Name = "Alkoholos"
                 },
                 new Category()
                 {
-                    Name = "Non-alcoholic"
+                    Name = "Alkoholmentes"
                 }
             };
             dbContext.AddRange(categories);
@@ -31,22 +31,22 @@ namespace Drink_Wholesale.Models
             {
                 new SubCategory()
                 {
-                    Name = "Beers",
+                    Name = "Sörök",
                     CategoryId = 1
                 },
                 new SubCategory()
                 {
-                    Name = "Wines",
+                    Name = "Borok",
                     CategoryId = 1
                 },
                 new SubCategory()
                 {
-                    Name = "Soft Drinks",
+                    Name = "Üdítők",
                     CategoryId = 2
                 },
                 new SubCategory()
                 {
-                    Name = "Non-Alcoholic beers",
+                    Name = "Alkoholmentes sörök",
                     CategoryId = 2
                 }
             };
@@ -94,7 +94,7 @@ namespace Drink_Wholesale.Models
                     Packaging = Packaging.Single | Packaging.ShrinkWrap| Packaging.Crate | Packaging.Tray,
                     SubCategoryId = 1,
                     Producer = "Heineken Hungária kft"
-                },            
+                },
                 new Product()
                 {
                     ArtNo = 1249,
@@ -117,13 +117,51 @@ namespace Drink_Wholesale.Models
                 },
                 new Product()
                 {
+                    ArtNo = 1256,
+                    Description = "Dankó koccintós vörös bor",
+                    Inventory = 45,
+                    NetPrice = 550,
+                    Packaging = Packaging.Single |Packaging.Crate,
+                    SubCategoryId = 2,
+                    Producer = "Weinhaus kft"
+                },
+                new Product()
+                {
                     ArtNo = 1286,
                     Description = "Coca Cola 1.75l",
-                    Inventory = 100,
+                    Inventory = 90,
                     NetPrice = 500,
                     Packaging = Packaging.ShrinkWrap | Packaging.Single,
                     SubCategoryId = 3,
                     Producer = "Coca Cola hfb"
+                },
+                new Product()
+                {
+                    ArtNo = 1287,
+                    Description = "Fante Zero 1.75l",
+                    Inventory = 100,
+                    NetPrice = 480,
+                    Packaging = Packaging.ShrinkWrap | Packaging.Single,
+                    SubCategoryId = 3,
+                    Producer = "Coca Cola hfb"
+                },
+                new Product()
+                {
+                    ArtNo = 2145,
+                    Description = "Soproni 0.0%",
+                    Inventory = 24,
+                    Packaging = Packaging.Tray | Packaging.Crate,
+                    SubCategoryId = 4,
+                    Producer = "Heineken hungary"
+                },
+                new Product()
+                {
+                    ArtNo = 2145,
+                    Description = "Borsodi 0.0%",
+                    Inventory = 24,
+                    Packaging = Packaging.Tray | Packaging.Crate,
+                    SubCategoryId = 4,
+                    Producer = "Borsodi sörfőzde"
                 }
             };
             dbContext.AddRange(products);

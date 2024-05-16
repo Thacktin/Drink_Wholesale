@@ -1,4 +1,4 @@
-namespace Drink_Wholesale.Web.Models
+namespace Drink_Wholesale.Models
 {
     public class ErrorViewModel
     {

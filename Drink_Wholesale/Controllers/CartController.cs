@@ -1,7 +1,7 @@
 ﻿using Drink_Wholesale.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Drink_Wholesale.Controllers
+namespace Drink_Wholesale.Web.Controllers
 {
     public class CartController : Controller
     {
@@ -24,8 +24,21 @@ namespace Drink_Wholesale.Controllers
 
         public IActionResult Delete(int id)
         {
-            var cartItem = _service.GetItemFromCart(id);
-            return View();
+            if (id == -1)
+            {
+                _service.DiscardCart(HttpContext.Session);
+                var list = _service.GetCartViewModels(HttpContext.Session);
+                return View("Index", list);
+            }
+            else
+            {
+                var cartItem = _service.GetItemFromCart(id, HttpContext.Session);
+                _service.RemoveItem(id, HttpContext.Session);
+                var list = _service.GetCartViewModels(HttpContext.Session);
+                return View("Index", list);
+            }
+
         }
+
     }
 }
