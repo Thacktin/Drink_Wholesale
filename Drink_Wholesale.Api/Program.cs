@@ -1,7 +1,9 @@
-using Drink_Wholesale.Models;
+using Drink_Wholesale.Persistence;
 using Drink_Wholesale.Persistence.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using Drink_Wholesale.Persistence.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Drink_Wholesale.Api
 {
@@ -21,6 +23,16 @@ namespace Drink_Wholesale.Api
 
             builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+                {
+                    options.Password.RequireDigit = false;
+                    options.Password.RequiredLength = 3;
+                    options.Password.RequiredUniqueChars = 0;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                })
+                .AddEntityFrameworkStores<DrinkWholesaleDbContext>();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -37,6 +49,8 @@ namespace Drink_Wholesale.Api
 
             app.UseHttpsRedirection();
 
+            app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

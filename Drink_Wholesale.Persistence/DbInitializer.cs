@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Drink_Wholesale.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace Drink_Wholesale.Models
+namespace Drink_Wholesale.Persistence
 {
     public static class DbInitializer
     {

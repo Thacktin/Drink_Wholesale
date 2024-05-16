@@ -1,4 +1,4 @@
-using Drink_Wholesale.Models;
+using Drink_Wholesale.Persistence;
 using Drink_Wholesale.Persistence.Services;
 using Drink_Wholesale.Services;
 using Microsoft.EntityFrameworkCore;

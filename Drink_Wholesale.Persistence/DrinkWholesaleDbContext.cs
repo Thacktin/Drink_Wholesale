@@ -1,8 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Drink_Wholesale.Models;
+using Drink_Wholesale.Persistence.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
-namespace Drink_Wholesale.Models
+namespace Drink_Wholesale.Persistence
 {
-    public class DrinkWholesaleDbContext : DbContext
+    public class DrinkWholesaleDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<SubCategory> SubCategories { get; set; } = null!;
@@ -14,9 +17,9 @@ namespace Drink_Wholesale.Models
         //    optionsBuilder.UseSqlServer(connectionString: "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DrinkWholesale;Trusted_Connection=True;MultipleActiveResultSets=True");
         //    base.OnConfiguring(optionsBuilder);
         //}
-        public DrinkWholesaleDbContext(DbContextOptions<DrinkWholesaleDbContext> builder) : base(builder)
+        public DrinkWholesaleDbContext(DbContextOptions builder) : base(builder)
         {
-            
+
         }
     }
 }
