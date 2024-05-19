@@ -27,7 +27,6 @@ namespace Drink_Wholesale.Persistence.Services
         {
             return _context.Categories
                 .Where(c => c.Name.Contains(name ?? ""))
-                .Include(c=> c.SubCategories)
                 .OrderBy(c => c.Name)
                 .ToList();
         }
@@ -60,14 +59,23 @@ namespace Drink_Wholesale.Persistence.Services
 
         #region SubCategory
 
-        public void AddSubcategory(SubCategory sub)
+        public SubCategory?  AddSubcategory(SubCategory sub)
         {
-            if (sub == null)
+            try
             {
-                return;
+                _context.SubCategories.Add(sub);
+                _context.SaveChanges();
             }
-            _context.SubCategories.Add(sub);
-            _context.SaveChanges();
+            catch (Exception e)
+            {
+
+                return null;
+            }
+
+            return sub;
+
+
+
 
         }
 

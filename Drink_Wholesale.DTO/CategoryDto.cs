@@ -9,7 +9,7 @@ namespace Drink_Wholesale.DTO
     public class CategoryDto
     {
         public int Id { get; set; }
-        public string Name { get; set; } = null!;
+        public String Name { get; set; } = null!;
         public virtual List<SubCategoryDto> SubCategories { get; set; } = null!;
     }
 }

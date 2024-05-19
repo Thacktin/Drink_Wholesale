@@ -22,11 +22,26 @@ namespace Drink_Wholesale.WebApi.MappingConfigurations
             }
         }
 
+        public class SubCategoryDtoProfile : Profile
+        {
+            public SubCategoryDtoProfile()
+            {
+                CreateMap<SubCategoryDto, SubCategory>();
+            }
+        }
+
         public class ProductProfile : Profile
         {
             public ProductProfile()
             {
                 CreateMap<Product, ProductDto>();
+            }
+        }
+        public class ProductDtoProfile : Profile
+        {
+            public ProductDtoProfile()
+            {
+                CreateMap<ProductDto, Product>();
             }
         }
     }

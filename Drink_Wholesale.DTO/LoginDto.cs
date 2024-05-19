@@ -8,7 +8,7 @@ namespace Drink_Wholesale.DTO
 {
     public class LoginDto
     {
-        public String  UserName { get; set; }
-        public String Password { get; set; }
+        public String UserName { get; set; } = null!;
+        public String Password { get; set; } = null!;
     }
 }

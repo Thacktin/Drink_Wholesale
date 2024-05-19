@@ -10,7 +10,7 @@ public interface IDrinkWholesaleService
     void ChangeCategoryName(int id, string name);
     void DeleteCategory(int id);
 
-    void AddSubcategory(SubCategory sub);
+    SubCategory? AddSubcategory(SubCategory sub);
     List<SubCategory> GetSubCategoriesByCategoryId(int id);
     SubCategory GetSubCategoryById(int id);
     List<SubCategory> GetSubCategories(String? name = null);

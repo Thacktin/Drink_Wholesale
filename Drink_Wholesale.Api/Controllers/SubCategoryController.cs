@@ -34,9 +34,32 @@ namespace Drink_Wholesale.WebApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<SubCategoryDto>> GetCategories()
+        public ActionResult<IEnumerable<SubCategoryDto>> GetSubCategories(int categoryId)
         {
-            return _service.GetSubCategories().Select(i => _mapper.Map<SubCategoryDto>(i)).ToList();
+            try
+            {
+                return _service.GetCategoryById(categoryId).SubCategories.Select(i => _mapper.Map<SubCategoryDto>(i)).ToList();
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+           
+        }
+
+        [HttpPost]
+        public ActionResult<SubCategoryDto> PostSubCategory(SubCategoryDto subCategoryDto)
+        {
+            var subCategory = _service.AddSubcategory(_mapper.Map<SubCategory>(subCategoryDto));
+            if (subCategory is null)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            else
+            {
+                return CreatedAtAction(nameof(GetSubCategory), new { Id = subCategory.Id },
+                    _mapper.Map<SubCategoryDto>(subCategory));
+            }
         }
     }
 }

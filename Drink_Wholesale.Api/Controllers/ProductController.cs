@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Drink_Wholesale.DTO;
+using Drink_Wholesale.Models;
 using Drink_Wholesale.Persistence.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +20,7 @@ namespace Drink_Wholesale.WebApi.Controllers
         }
 
         [HttpGet("{Id}")]
-        public ActionResult<ProductDto> GetSubCategory(int Id)
+        public ActionResult<ProductDto> GetProduct(int Id)
         {
             try
             {
@@ -33,9 +34,16 @@ namespace Drink_Wholesale.WebApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ProductDto>> GetCategories()
+        public ActionResult<IEnumerable<ProductDto>> GetProducts(int subCategoryId)
         {
-            return _service.GetAllProducts().Select(i => _mapper.Map<ProductDto>(i)).ToList();
+            try
+            {
+                return _service.GetSubCategoryById(subCategoryId).Products.Select(i => _mapper.Map<ProductDto>(i)).ToList();
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
         }
     }
 }
