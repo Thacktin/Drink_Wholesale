@@ -4,7 +4,7 @@
 <link href="~/css/PagedList.css" rel="stylesheet" type="text/css" />
 <link href="~/css/site.min.css
 " rel="stylesheet" />
-@model X.PagedList.IPagedList<Drink_Wholesale.ViewModels.ProductViewModel>
+@model X.PagedList.IPagedList<Drink_Wholesale.Web.ViewModels.ProductViewModel>
 
 @{
     ViewData["Title"] = "Details";
@@ -35,7 +35,7 @@
     <thead>
         <tr>
             <th>
-                Leírás
+                @Html.DisplayNameFor(item=> item[0].Product!.Description)
             </th>
             <th>
                 <a asp-action="Details" asp-route-sortOrder="@ViewData["ProducerSortParam"]">Gyártó</a>
@@ -84,14 +84,14 @@
                 </td>
                 <td>
                     @* <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> | *@
-                    <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Product!.Id">Details</a> |
+                    <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Product!.Id">Részletek</a> |
                     @* <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> *@
                 </td>
             </tr>
         }
     </tbody>
 </table>
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+Oldal @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) a(z) @Model.PageCount ből
 
 @Html.PagedListPager(Model, page => Url.Action("Details",
             new { page }), new PagedListRenderOptions{LinkToPreviousPageFormat = "Előző", LinkToNextPageFormat = "Következő", DelimiterBetweenPageNumbers = "|", })

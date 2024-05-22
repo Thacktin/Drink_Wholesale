@@ -1,6 +1,5 @@
-﻿@using Drink_Wholesale.ViewModels
-@using Drink_Wholesale.Helpers
-@model Drink_Wholesale.ViewModels.ProductViewModel
+﻿@using Drink_Wholesale.Web.Helpers
+@model Drink_Wholesale.Web.ViewModels.ProductViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -95,7 +94,7 @@
             </tr>
             <tr>
                 <td>
-                    <input type="submit" value="Order" />
+                    <input type="submit" value="Kosárba" />
                 </td>
             </tr>
 
@@ -113,6 +112,6 @@
 </div>
 <div>
     @* <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> | *@
-    <a asp-controller="SubCategories" asp-action="Details" asp-route-id="@Model.Product.SubCategoryId">Back to List</a>
+    <a asp-controller="SubCategories" asp-action="Details" asp-route-id="@Model.Product.SubCategoryId">Vissza a termékekhez</a>
 
 </div>

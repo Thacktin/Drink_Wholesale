@@ -1,18 +1,10 @@
-﻿
-using System.Collections;
-using Drink_Wholesale.Models;
+﻿using Drink_Wholesale.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Drink_Wholesale.Helpers
+namespace Drink_Wholesale.Web.Helpers
 {
     public static class EnumHelpers
     {
-        //public static IEnumerable<SelectList> ToSelectListItems<TEnum>(this TEnum eNumObj, TEnum items)
-        //{
-        //    var f = Enum.GetValues(items)
-        //    return Enum.GetValues(typeof(TEnum)).Cast<TEnum>().SelectMany(e=> e.)
-        //}
-
         public static IEnumerable<SelectListItem> ToSelectList(List<Packaging> input)
         {
             var list = new List<SelectListItem>();

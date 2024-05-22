@@ -1,0 +1,6 @@
+@Drink_Wholesale.Api_HostAddress = http://localhost:5045
+
+GET {{Drink_Wholesale.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
