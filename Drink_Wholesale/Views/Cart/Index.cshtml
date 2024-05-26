@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Drink_Wholesale.ViewModels.CartViewModel> 
+﻿@model IEnumerable<Drink_Wholesale.Web.ViewModels.CartViewModel> 
 
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -12,9 +12,6 @@
     }
     else
     {
-
-
-
         <table class="table">
             <thead>
             <tr>
@@ -34,13 +31,16 @@
                     Bruttó egységár
                 </th>
                 <th>
-                    Darabszám
+                    Mennyiség
                 </th>
                 <th>
                     Kiszerelés
                 </th>
                 <th>
-                    Összesen
+                    Darabszám
+                </th>
+                <th>
+                    Részösszeg
                 </th>
             </tr>
             </thead>
@@ -67,10 +67,13 @@
                         @Html.DisplayFor(modelItem => item.ViewModel.Quantity)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ViewModel.SelectedPackaging)
+                        @Html.DisplayFor(modelItem => item.ViewModel.SelectedPackaging) 
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.TotalQuantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalPrice) Ft
                     </td>
                     <td>
                         @* <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> | *@
@@ -82,14 +85,17 @@
             </tbody>
         </table>
         <p>
-           Összesen(Nettó): <span> @ViewData["TotalNetPrice"] Ft</span>
+           Végösszeg(Nettó): <span> @ViewData["TotalNetPrice"] Ft</span>
         </p>
         <p>
-            Összesen(Bruttó): @ViewData["TotalGrossPrice"] Ft
+            Végösszeg(Bruttó): @ViewData["TotalGrossPrice"] Ft
         </p>
 
         <div>
             <a asp-controller="Orders" asp-action="Create">Rendelés leadása</a>
+        </div>
+        <div>
+            <a asp-controller="Cart" asp-action="Delete" asp-route-id="-1">Kosár törlése</a>
         </div>
     }
 }

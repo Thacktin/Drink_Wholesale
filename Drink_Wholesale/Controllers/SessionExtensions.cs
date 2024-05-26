@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Drink_Wholesale.Controllers
+namespace Drink_Wholesale.Web.Controllers
 {
     public static class SessionExtensions
     {

@@ -1,7 +1,9 @@
 ﻿using Drink_Wholesale.Models;
-using Drink_Wholesale.ViewModels;
-using Drink_Wholesale.Controllers;
-using Drink_Wholesale.Helpers;
+using Drink_Wholesale.Persistence.Services;
+using Drink_Wholesale.Web.Helpers;
+using Drink_Wholesale.Web.ViewModels;
+using Drink_Wholesale.Web.Controllers;
+using Drink_Wholesale.Persistence;
 
 namespace Drink_Wholesale.Services
 {
@@ -31,26 +33,42 @@ namespace Drink_Wholesale.Services
 
         public void AddItem(ProductViewModel product, ISession session)
         {
-            _cart = Controllers.SessionExtensions.Get<List<CartItem>>(session, "cart");
+            _cart = Web.Controllers.SessionExtensions.Get<List<CartItem>>(session, "cart");
             if (product.Product == null) throw new ArgumentNullException();
             _cart ??= [];
             CartItem item = new CartItem()
             { ProductId = product.Product.Id, Packaging = product.SelectedPackaging, Quantity = product.Quantity };
             _cart.Add(item);
-            Controllers.SessionExtensions.Set<List<CartItem>>(session, "cart", _cart);
+            Web.Controllers.SessionExtensions.Set<List<CartItem>>(session, "cart", _cart);
         }
 
         public void RemoveItem(int id, ISession session)
         {
-            _cart = Controllers.SessionExtensions.Get<List<CartItem>>(session, "cart");
+            _cart = Web.Controllers.SessionExtensions.Get<List<CartItem>>(session, "cart");
             _cart.RemoveAll(i => i.ProductId == id);
-            Controllers.SessionExtensions.Set<List<CartItem>>(session, "cart", _cart);
+            Web.Controllers.SessionExtensions.Set<List<CartItem>>(session, "cart", _cart);
         }
 
-        public CartViewModel GetItemFromCart(int id)
+        public CartViewModel GetItemFromCart(int id, ISession session)
         {
-            //return new CartViewModel() { }.Single(c => c.ProductId == id);
-            throw new NotImplementedException();
+            _cart = Web.Controllers.SessionExtensions.Get<List<CartItem>>(session, "cart");
+            return NewCartViewModel(_cart.Single(c => c.ProductId == id));
+        }
+
+        public bool CheckIfAlreadyInCart(ProductViewModel productViewModel, ISession session)
+        {
+            _cart = Web.Controllers.SessionExtensions.Get<List<CartItem>>(session, "cart");
+            if (_cart == null)
+            {
+                return false;
+            }
+            return _cart.Count != 0 && _cart.Any(c => c.ProductId == productViewModel.Product!.Id);
+        }
+
+        public void DiscardCart(ISession session)
+        {
+            _cart = new();
+            Web.Controllers.SessionExtensions.Set<List<CartItem>>(session, "cart",_cart);
         }
 
         private CartViewModel NewCartViewModel(CartItem cartItem)
@@ -63,37 +81,26 @@ namespace Drink_Wholesale.Services
                     Quantity = cartItem.Quantity,
                     SelectedPackaging = cartItem.Packaging
                 },
-                TotalQuantity = cartItem.Quantity * EnumHelpers.PackagintToInt(cartItem.Packaging)
+                TotalQuantity = cartItem.Quantity * EnumHelpers.PackagintToInt(cartItem.Packaging),
+                
             };
         }
 
         public List<CartViewModel> GetCartViewModels(ISession session)
         {
-            _cart = Controllers.SessionExtensions.Get<List<CartItem>>(session, "cart");
+            _cart = Web.Controllers.SessionExtensions.Get<List<CartItem>>(session, "cart");
             if (_cart == null)
             {
                 return new();
             }
 
-            //var items = _cart.Select(i => new CartViewModel()
-            //{
-            //    ViewModel = new ProductViewModel()
-            //    {
-            //        Product = _service.GetProductById(i.ProductId),
-            //        Quantity = i.Quantity,
-            //        SelectedPackaging = i.Packaging
-            //    },
-            //    TotalQuantity = i.Quantity * EnumHelpers.PackagintToInt(i.Packaging)
-
-
-            //}).ToList();
             var items = _cart.Select(c => NewCartViewModel(c)).ToList();
             return items;
         }
 
         public List<CartItem> GetCartItems(ISession session)
         {
-            return Controllers.SessionExtensions.Get<List<CartItem>>(session, "cart");
+            return Web.Controllers.SessionExtensions.Get<List<CartItem>>(session, "cart");
         }
 
 
@@ -113,16 +120,6 @@ namespace Drink_Wholesale.Services
             _context.SaveChanges();
         }
 
-        public void UpdateOrder(Order order)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteOrder(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public Order GetOrderById(int id)
         {
             return _context.Orders.Single(o => o.Id == id);
@@ -131,10 +128,7 @@ namespace Drink_Wholesale.Services
         public List<Order> GetOrders()
         {
             return _context.Orders.ToList();
-
         }
-
-
 
         #endregion
     }

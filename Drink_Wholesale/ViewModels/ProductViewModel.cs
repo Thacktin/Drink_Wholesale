@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Drink_Wholesale.Models;
 
-namespace Drink_Wholesale.ViewModels
+namespace Drink_Wholesale.Web.ViewModels
 {
     public class ProductViewModel
     {

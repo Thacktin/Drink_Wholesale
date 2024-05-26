@@ -32,7 +32,6 @@ namespace Drink_Wholesale.WebApi.MappingConfigurations
             }
         }
 
-
         public class ProductDtoProfile : Profile
         {
             public ProductDtoProfile()
