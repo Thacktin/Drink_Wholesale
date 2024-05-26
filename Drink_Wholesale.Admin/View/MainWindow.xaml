@@ -1,0 +1,165 @@
+﻿<Window x:Class="Drink_Wholesale.Admin.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Drink_Wholesale.Admin.View"
+        xmlns:viewModel ="clr-namespace:Drink_Wholesale.Admin.ViewModel"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:system="clr-namespace:System;assembly=System.Runtime"
+        d:DataContext="{d:DesignInstance Type=viewModel:MainViewModel}"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+   <Window.Resources>
+       <x:Array Type="system:String" x:Key="PackagingTypeArray">
+           <system:String>darab</system:String>
+            <system:String>zsugor</system:String>
+            <system:String>tálca</system:String>
+            <system:String>rekesz</system:String>
+       </x:Array>
+       <viewModel:PackagingDisplayConverter x:Key="PackagingDisplayConverter"/>
+   </Window.Resources>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_Frissítés" Command="{Binding RefreshCategoriesCommand}"/>
+        </Menu>
+
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="0.5*"/>
+            </Grid.RowDefinitions>
+            <!--Category-->
+            <GroupBox Grid.Row="0" >
+                <GroupBox.Header>
+                    <Label Content="Kategóriák:"/>
+                </GroupBox.Header>
+                <DataGrid Grid.Row="0" ItemsSource="{Binding Categories}" 
+                          SelectedItem="{Binding SelectedCategory}"  
+                          VerticalContentAlignment="Stretch" SelectionMode="Single" SelectionUnit="FullRow"
+                          CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True"
+                          AutoGenerateColumns="False" HeadersVisibility="Row" CanUserResizeRows="False">
+                    <DataGrid.Resources>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <Trigger Property="DataGridCell.IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#42b3f5" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.Resources>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Name}" Width="*"/>
+                    </DataGrid.Columns>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectCategoryCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </DataGrid>
+            </GroupBox>
+
+
+
+            <!--SubCategory-->
+            <GroupBox Grid.Row="1">
+                <GroupBox.Header>
+                    <Label Content="Alkategóriák:"/>
+                </GroupBox.Header>
+                <DataGrid  ItemsSource="{Binding SubCategories}" 
+                           SelectedItem="{Binding SelectedSubCategory}"
+                           VerticalContentAlignment="Stretch" SelectionMode="Single" SelectionUnit="FullRow"
+                           CanUserAddRows="True" CanUserDeleteRows="False" IsReadOnly="False"
+                           AutoGenerateColumns="False" HeadersVisibility="Row" CanUserResizeRows="False" >
+                    <DataGrid.Resources>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <Trigger Property="DataGridCell.IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#42b3f5" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Name}" Width="*"/>
+                    </DataGrid.Columns>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectSubCategoryCommand}"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="AddingNewItem">
+                            <i:InvokeCommandAction PassEventArgsToCommand="True" Command="{Binding AddingNewSubCategoryCommand}"/>
+                        </i:EventTrigger>
+                        <!--<i:EventTrigger EventName="KeyUp">
+                            <i:InvokeCommandAction PassEventArgsToCommand="True" Command="{Binding SubcategoryDeleteRequestCommand}"/>
+                        </i:EventTrigger>-->
+                    </i:Interaction.Triggers>
+                    <DataGrid.RowValidationRules>
+                        <viewModel:SubCategoryValidationRule ValidationStep="UpdatedValue"/>
+                    </DataGrid.RowValidationRules>
+
+
+                </DataGrid>
+            </GroupBox>
+
+
+
+            <!--Product-->
+            <GroupBox Grid.Row="2">
+                <GroupBox.Header>
+                    <Label Content="Termékek:"/> 
+                </GroupBox.Header>
+                <DataGrid  ItemsSource="{Binding Products}" 
+                           SelectedItem="{Binding SelectedProduct}"
+                           VerticalContentAlignment="Stretch" SelectionMode="Single" SelectionUnit="FullRow"
+                           CanUserAddRows="True" CanUserDeleteRows="False" IsReadOnly="False"
+                           AutoGenerateColumns="False" HeadersVisibility="All" >
+                    <DataGrid.Resources>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <Trigger Property="DataGridCell.IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#42b3f5" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.Resources>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction PassEventArgsToCommand="True" Command="{Binding EditProductCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <DataGrid.RowHeaderTemplate>
+                        <DataTemplate></DataTemplate>
+                    </DataGrid.RowHeaderTemplate>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Gyártó" Binding="{Binding Producer}"  Width="*" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Gyári szám" Binding="{Binding ArtNo}" Width="*" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Rövid leírás" Binding="{Binding Description}" Width="*" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Nettó ár(Ft)" Binding="{Binding NetPrice}" Width="*" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Bruttó ár(Ft)" Binding="{Binding GrossPrice}" Width="*" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Kiszerelések" Binding="{Binding Packaging, Converter={StaticResource PackagingDisplayConverter}, ConverterParameter={StaticResource PackagingTypeArray} }" Width="*" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Raktárkészlet (db)" Binding="{Binding Inventory}" Width="*" IsReadOnly="False"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Margin="10" Content="Termék hozzáadása" Command="{Binding AddProductCommand}"/>
+                <Button Grid.Column="1" Margin="10" Content="Termék szerkesztése" Command="{Binding EditProductCommand}"/>
+                <Button Grid.Column="2" Margin="10" Content="Termék törlése" Command="{Binding DeleteproductCommand}"/>
+                <Button Grid.Column="3" Margin="10" Content="Rendelések" Command="{Binding OpenOrdersWindowCommand}"/>
+
+
+            </Grid>
+        </Grid>
+    </DockPanel>
+</Window>

@@ -59,14 +59,31 @@ namespace Drink_Wholesale.Services
 
         #region SubCategory
 
+<<<<<<< Updated upstream:Drink_Wholesale/Services/DrinkWholesaleService.cs
         public void AddSubcategory(SubCategory sub)
+=======
+        public SubCategory? AddSubcategory(SubCategory sub)
+>>>>>>> Stashed changes:Drink_Wholesale.Persistence/Services/DrinkWholesaleService.cs
         {
             if (sub == null)
             {
                 return;
             }
+<<<<<<< Updated upstream:Drink_Wholesale/Services/DrinkWholesaleService.cs
             _context.SubCategories.Add(sub);
             _context.SaveChanges();
+=======
+            catch (Exception)
+            {
+
+                return null;
+            }
+
+            return sub;
+
+
+
+>>>>>>> Stashed changes:Drink_Wholesale.Persistence/Services/DrinkWholesaleService.cs
 
         }
 
@@ -86,6 +103,10 @@ namespace Drink_Wholesale.Services
         {
             return _context.SubCategories
                 .Where(s => s.Name.Contains(name ?? ""))
+<<<<<<< Updated upstream:Drink_Wholesale/Services/DrinkWholesaleService.cs
+=======
+                .Include(s => s.Category)
+>>>>>>> Stashed changes:Drink_Wholesale.Persistence/Services/DrinkWholesaleService.cs
                 .ToList();
         }
 
@@ -143,23 +164,37 @@ namespace Drink_Wholesale.Services
             return _context.Products.Single(p => p.Id == id);
         }
 
-        public void UpdateProduct(Product product, int id)
+        public bool UpdateProduct(Product product)
         {
-            var oldProduct = _context.Products.Single(p => p.Id == id);
+            //var oldProduct = _context.Products.Single(p => p.Id == id);
 
-            if (oldProduct == null)
+            //if (oldProduct == null)
+            //{
+            //    return;
+            //}
+
+            //oldProduct.SubCategory = product.SubCategory;
+            //oldProduct.Description = product.Description;
+            //oldProduct.ArtNo = product.ArtNo;
+            //oldProduct.Inventory = product.Inventory;
+            //oldProduct.NetPrice = product.NetPrice;
+            //oldProduct.Producer = product.Producer;
+            //oldProduct.Packaging = product.Packaging;
+            try
             {
-                return;
+                _context.Update(product);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return false;
+            }
+            catch (DbUpdateException)
+            {
+                return false;
             }
 
-            oldProduct.SubCategory = product.SubCategory;
-            oldProduct.Description = product.Description;
-            oldProduct.ArtNo = product.ArtNo;
-            oldProduct.Inventory = product.Inventory;
-            oldProduct.NetPrice = product.NetPrice;
-            oldProduct.Producer = product.Producer;
-            oldProduct.Packaging = product.Packaging;
-            _context.SaveChanges();
+            return true;
         }
 
         public void DeleteProduct(int id)
@@ -171,6 +206,55 @@ namespace Drink_Wholesale.Services
             }
             _context.Products.Remove(product);
             _context.SaveChanges();
+        }
+        #endregion
+
+        #region Order
+
+
+
+        public Order? AddOrder(Order order)
+        {
+            try
+            {
+                _context.Orders.Add(order);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                return null;
+            }
+
+            return order;
+        }
+
+        public Order GetOrderById(int id)
+        {
+            return _context.Orders.Single(o => o.Id == id);
+        }
+
+        public List<Order> GetAllOrders()
+        {
+            return _context.Orders.ToList();
+        }
+
+        public bool UpdateOrder(Order order)
+        {
+            try
+            {
+                _context.Orders.Update(order);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return false;
+            }
+            catch (DbUpdateException)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public ProductViewModel NewProductViewModel(int id)

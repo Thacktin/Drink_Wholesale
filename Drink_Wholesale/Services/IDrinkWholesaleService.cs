@@ -22,7 +22,16 @@ public interface IDrinkWholesaleService
     List<Product> GetProductsBySubCategoryId(int id);
     List<Product> GetAllProducts();
     Product GetProductById(int id);
-    void UpdateProduct(Product product, int id);
+    bool UpdateProduct(Product product);
     void DeleteProduct(int id);
+<<<<<<< Updated upstream:Drink_Wholesale/Services/IDrinkWholesaleService.cs
     ProductViewModel NewProductViewModel(int id);
+=======
+    //ProductViewModel NewProductViewModel(int id);
+
+    Order? AddOrder(Order order);
+    Order GetOrderById(int id);
+    List<Order> GetAllOrders();
+    bool UpdateOrder(Order order);
+>>>>>>> Stashed changes:Drink_Wholesale.Persistence/Services/IDrinkWholesaleService.cs
 }
