@@ -62,7 +62,7 @@ namespace Drink_Wholesale.Admin.ViewModel
 #endregion
         #region Commands
 
-        public DelegateCommand LoginCommand;
+        public DelegateCommand LoginCommand { get; private set; }
 
         #endregion
         public LoginViewModel(DrinkWholesaleAPIService service, IMapper mapper)
@@ -82,7 +82,7 @@ namespace Drink_Wholesale.Admin.ViewModel
             try
             {
                 IsLoading = true;
-                bool result = await _service.LoginAsync(UserName, passwordBox.Password);
+                bool result = await _service.LoginAsync(Username, passwordBox.Password);
                 IsLoading = false;
 
                 if (result)

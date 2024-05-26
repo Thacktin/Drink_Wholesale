@@ -86,5 +86,7 @@ namespace Drink_Wholesale.Admin.ViewModel
             OnPropertyChanged();
         }
     }
+
+    public virtual IEnumerable<CartItemViewModel> Products { get; set; }
     }
 }

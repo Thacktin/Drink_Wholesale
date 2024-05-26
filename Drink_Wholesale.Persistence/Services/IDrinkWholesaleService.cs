@@ -17,11 +17,18 @@ public interface IDrinkWholesaleService
     void ChangeSubCategoryName(string name, int id);
     void DeleteSubCategory(int id);
 
-    void AddProduct(Product product);
+    Product? AddProduct(Product product);
     List<Product> GetProductsBySubCategoryId(int id);
     List<Product> GetAllProducts();
     Product GetProductById(int id);
-    void UpdateProduct(Product product, int id);
+    bool UpdateProduct(Product product);
     void DeleteProduct(int id);
     //ProductViewModel NewProductViewModel(int id);
+
+    Order? AddOrder(Order order);
+    Order GetOrderById(int id);
+    List<Order> GetAllOrders();
+    bool UpdateOrder(Order order);
+    void DeleteOrder(int id);
+     bool ChangeOrderState(Order order);
 }

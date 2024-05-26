@@ -5,9 +5,11 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using AutoMapper;
 using Drink_Wholesale.Admin.Model;
 using Drink_Wholesale.Desktop.Model;
+using Drink_Wholesale.DTO;
 using ELTE.TodoList.Desktop.ViewModel;
 
 namespace Drink_Wholesale.Admin.ViewModel
@@ -59,6 +61,8 @@ namespace Drink_Wholesale.Admin.ViewModel
         #region Commands
 
         public DelegateCommand SelectOrderCommand { get; private set; }
+        public DelegateCommand OrderCompleteCommand { get; private set; }
+        public DelegateCommand OrderCompleteRevokeCommand { get; private set; }
         public DelegateCommand RefreshOrdersCommand { get; private set; }
 
 
@@ -71,7 +75,40 @@ namespace Drink_Wholesale.Admin.ViewModel
 
             RefreshOrdersCommand = new DelegateCommand(async _ => await LoadOrdersAsync());
             SelectOrderCommand = new DelegateCommand(async _ => await LoadProductsAsync(SelectedOrder));
+            OrderCompleteCommand = new DelegateCommand(
+                _ => SelectedOrder is not null && !SelectedOrder.IsFulfilled, 
+                async _ => await CompleteOrderAsync(SelectedOrder));
+            OrderCompleteRevokeCommand = new DelegateCommand(
+                _ => SelectedOrder is not null && SelectedOrder.IsFulfilled, 
+                async _ => await RevokeOrderCompleteAsync(SelectedOrder));
         }
+
+        private async Task RevokeOrderCompleteAsync(OrderViewModel selectedOrder)
+        {
+            MessageBoxResult result = MessageBox.Show("Vissavonja a teljesítettnek jelölést?", "asd", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+                bool res = await _service.RevokeFulfillOrderAsync(_mapper.Map<OrderDto>(selectedOrder));
+                if (res == true)
+                {
+                    await LoadOrdersAsync();
+                }
+            }
+        }
+
+        private async Task CompleteOrderAsync(OrderViewModel selectedOrder)
+        {
+            MessageBoxResult result = MessageBox.Show("Teljesítettnek jelöli?", "asd", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+               bool res =  await _service.FulfillOrderAsync(_mapper.Map<OrderDto>(selectedOrder));
+               if (res == true)
+               {
+                  await LoadOrdersAsync();
+               }
+            }
+        }
+
 
         public async Task LoadOrdersAsync()
         {

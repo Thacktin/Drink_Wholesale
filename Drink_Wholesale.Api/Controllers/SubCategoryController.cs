@@ -2,6 +2,7 @@
 using Drink_Wholesale.DTO;
 using Drink_Wholesale.Models;
 using Drink_Wholesale.Persistence.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Drink_Wholesale.WebApi.Controllers
@@ -48,6 +49,7 @@ namespace Drink_Wholesale.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult<SubCategoryDto> PostSubCategory(SubCategoryDto subCategoryDto)
         {
             var subCategory = _service.AddSubcategory(_mapper.Map<SubCategory>(subCategoryDto));

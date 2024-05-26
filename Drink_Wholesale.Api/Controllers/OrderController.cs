@@ -2,6 +2,7 @@
 using Drink_Wholesale.DTO;
 using Drink_Wholesale.Models;
 using Drink_Wholesale.Persistence.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Drink_Wholesale.WebApi.Controllers
@@ -46,6 +47,7 @@ namespace Drink_Wholesale.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult<OrderDto> PostOrder(OrderDto orderDto)
         {
             var order = _service.AddOrder(_mapper.Map<Order>(orderDto));
@@ -61,6 +63,7 @@ namespace Drink_Wholesale.WebApi.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public IActionResult PutOrder(int id, OrderDto orderDto)
         {
             if (id != orderDto.Id)
@@ -68,6 +71,24 @@ namespace Drink_Wholesale.WebApi.Controllers
                 return BadRequest();
             }
             if (_service.UpdateOrder(_mapper.Map<Order>(orderDto)))
+            {
+                return Ok();
+            }
+            else
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPatch("{id}")]
+        [Authorize]
+        public IActionResult PatchOrder(int id, OrderDto orderDto)
+        {
+            if (id != orderDto.Id)
+            {
+                return BadRequest();
+            }
+            if (_service.ChangeOrderState(_mapper.Map<Order>(orderDto)))
             {
                 return Ok();
             }

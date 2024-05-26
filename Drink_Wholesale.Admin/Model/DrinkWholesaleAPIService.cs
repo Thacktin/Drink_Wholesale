@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Documents;
@@ -19,6 +20,33 @@ namespace Drink_Wholesale.Admin.Model
         {
             _client = new() { BaseAddress = new Uri(baseAddress) };
         }
+
+        #region Authentication
+
+        public async Task<bool> LoginAsync(string name, string password)
+        {
+            LoginDto user = new LoginDto()
+            {
+                UserName = name,
+                Password = password
+            };
+
+            HttpResponseMessage response = await _client.PostAsJsonAsync("api/Account/Login", user);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                return false;
+            }
+
+            throw new NetworkException("Service returned response: " + response.StatusCode);
+        }
+
+        #endregion
 
         #region Category
 
@@ -118,6 +146,30 @@ namespace Drink_Wholesale.Admin.Model
                 return order.Products; 
             }
             throw new NetworkException("Network error: " + response.StatusCode);
+        }
+
+        public async Task<bool> FulfillOrderAsync(OrderDto order)
+        {
+            HttpResponseMessage response = await _client.PatchAsJsonAsync($"api/order/{order.Id}", order);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task<bool> RevokeFulfillOrderAsync(OrderDto order)
+        {
+            HttpResponseMessage response = await _client.PatchAsJsonAsync($"api/order/{order.Id}", order);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

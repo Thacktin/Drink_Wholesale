@@ -1,4 +1,5 @@
 ﻿using Drink_Wholesale.Models;
+using Drink_Wholesale.Persistence.Helpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Drink_Wholesale.Persistence.Services
@@ -59,7 +60,7 @@ namespace Drink_Wholesale.Persistence.Services
 
         #region SubCategory
 
-        public SubCategory?  AddSubcategory(SubCategory sub)
+        public SubCategory? AddSubcategory(SubCategory sub)
         {
             try
             {
@@ -95,7 +96,7 @@ namespace Drink_Wholesale.Persistence.Services
         {
             return _context.SubCategories
                 .Where(s => s.Name.Contains(name ?? ""))
-                .Include(s=> s.Category)
+                .Include(s => s.Category)
                 .ToList();
         }
 
@@ -126,14 +127,20 @@ namespace Drink_Wholesale.Persistence.Services
 
 
 
-        public void AddProduct(Product product)
+        public Product AddProduct(Product product)
         {
-            if (product == null)
+            try
             {
-                return;
+                _context.Products.Add(product);
+                _context.SaveChanges();
             }
-            _context.Products.Add(product);
-            _context.SaveChanges();
+            catch (Exception e)
+            {
+
+                return null;
+            }
+
+            return product;
         }
 
         public List<Product> GetProductsBySubCategoryId(int id)
@@ -153,23 +160,19 @@ namespace Drink_Wholesale.Persistence.Services
             return _context.Products.Single(p => p.Id == id);
         }
 
-        public void UpdateProduct(Product product, int id)
+        public bool UpdateProduct(Product product)
         {
-            var oldProduct = _context.Products.Single(p => p.Id == id);
-
-            if (oldProduct == null)
+            try
             {
-                return;
+                _context.Products.Update(product);
+                _context.SaveChanges();
+                return true;
             }
-
-            oldProduct.SubCategory = product.SubCategory;
-            oldProduct.Description = product.Description;
-            oldProduct.ArtNo = product.ArtNo;
-            oldProduct.Inventory = product.Inventory;
-            oldProduct.NetPrice = product.NetPrice;
-            oldProduct.Producer = product.Producer;
-            oldProduct.Packaging = product.Packaging;
-            _context.SaveChanges();
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
         }
 
         public void DeleteProduct(int id)
@@ -181,6 +184,90 @@ namespace Drink_Wholesale.Persistence.Services
             }
             _context.Products.Remove(product);
             _context.SaveChanges();
+        }
+
+        public Order? AddOrder(Order order)
+        {
+            try
+            {
+                _context.Orders.Add(order);
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+            return order;
+        }
+
+        public Order GetOrderById(int id)
+        {
+            return _context.Orders.Single(o => o.Id == id);
+        }
+
+        public List<Order> GetAllOrders()
+        {
+            return _context.Orders.ToList();
+        }
+
+        public bool UpdateOrder(Order order)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteOrder(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ChangeOrderState(Order order)
+        {
+            List<Product> productToUpdate = new();
+            var products = order.Products;
+            if (order.IsFulfilled)
+            {
+                foreach (var product in products)
+                {
+                    Product p = product.Product;
+                    if (p != null)
+                    {
+                        p.Inventory += product.Quantity * EnumHelpers.PackagintToInt(product.Packaging);
+                        productToUpdate.Add(p);
+                    }
+
+                }
+                order.IsFulfilled = true;
+            }
+            else
+            {
+                foreach (var product in products)
+                {
+                    Product p = product.Product;
+                    if (p != null)
+                    {
+                        p.Inventory -= product.Quantity * EnumHelpers.PackagintToInt(product.Packaging);
+                        productToUpdate.Add(p);
+                    }
+
+                }
+                order.IsFulfilled = false;
+            }
+
+            try
+            {
+                productToUpdate.Select(p => _context.Products.Update(p));
+                _context.Orders.Update(order);
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+
+
+
+            return true;
         }
 
         //public ProductViewModel NewProductViewModel(int id)

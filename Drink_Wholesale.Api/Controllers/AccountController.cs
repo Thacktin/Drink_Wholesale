@@ -1,81 +1,67 @@
-﻿
-using System;
-using System.Threading.Tasks;
-using Drink_Wholesale.DTO;
+﻿using Drink_Wholesale.DTO;
 using Drink_Wholesale.Persistence.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ELTE.TravelAgency.Service.Controllers
+namespace Drink_Wholesale.WebApi.Controllers
 {
-	/// <summary>
-	/// Felhasználókezelést biztosító vezérlő.
-	/// </summary>
-	[Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
-    [ApiConventionType(typeof(DefaultApiConventions))]
-    public class AccountController : Controller
+    public class AccountController : ControllerBase
     {
-        /// <summary>
-        /// Authentikációs szolgáltatás.
-        /// </summary>
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-
-        /// <summary>
-        /// Vezérlő példányosítása.
-        /// </summary>
-        public AccountController(SignInManager<ApplicationUser> signInManager)
+        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
-	        _signInManager = signInManager;
+            _signInManager = signInManager;
+            _userManager = userManager;
         }
 
-        /// <summary>
-        /// Bejelentkezés.
-        /// </summary>
-        /// <param name="loginDTO">Bejelentkezési adatok.</param>
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto loginDTO)
+        // api/Account/Login
+        [HttpPost]
+        public async Task<IActionResult> Login([FromBody] LoginDto user)
         {
-            try
-            {
-                // bejelentkeztetjük a felhasználót
-                var result = await _signInManager.PasswordSignInAsync(loginDTO.UserName, loginDTO.Password, false, false);
-                if (!result.Succeeded) // ha nem sikerült, akkor nincs bejelentkeztetés
-                {
-                    return Forbid();
-                }
+            if (_signInManager.IsSignedIn(User))
+                await _signInManager.SignOutAsync();
 
-                // ha sikeres volt az ellenőrzés
+            var result = await _signInManager.PasswordSignInAsync(user.UserName, user.Password,
+                isPersistent: false, lockoutOnFailure: false);
+
+            if (result.Succeeded)
+            {
                 return Ok();
             }
-            catch
-            {
-				// Internal Server Error
-	            return StatusCode(StatusCodes.Status500InternalServerError);
-			}
+
+            return Unauthorized("A bejelentkezés sikertelen!");
         }
 
-        /// <summary>
-        /// Kijelentkezés.
-        /// </summary>
-        [HttpGet("logout")]
-        [Authorize] // csak bejelentkezett felhasználóknak
+        // api/Account/Logout
+        [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
-            try
+            await _signInManager.SignOutAsync();
+
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register([FromBody] RegisterDto userReg)
+        {
+            ApplicationUser user = new()
             {
-				// kijelentkeztetjük az aktuális felhasználót
-				await _signInManager.SignOutAsync();
-				return Ok();
+                UserName = userReg.UserName,
+                Email = userReg.Email
+            };
+            var result =await  _userManager.CreateAsync(user, userReg.Password);
+            if (!result.Succeeded)
+            {
+                return BadRequest("Hiba");
             }
-            catch
-            {
-				// Internal Server Error
-	            return StatusCode(StatusCodes.Status500InternalServerError);
-			}
+            await _signInManager.SignInAsync(user, false);
+            return Created();
         }
     }
 }

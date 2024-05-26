@@ -7,8 +7,29 @@
         xmlns:viewModel="clr-namespace:Drink_Wholesale.Admin.ViewModel"
         d:DataContext="{d:DesignInstance Type=viewModel:LoginViewModel}"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="LoginWindow" Height="Auto" Width="250" SizeToContent="Height" ResizeMode="NoResize">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Content="Name:" />
+        <TextBox Grid.Row="0" Grid.Column="1" Margin="5" Name="txtName"
+                 Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" />
+
+        <Label Grid.Row="1" Grid.Column="0" Content="Password:" />
+        <PasswordBox Grid.Row="1" Grid.Column="1" Name="txtPassword" Margin="5" />
+
+        <Button Grid.Row="2" Grid.ColumnSpan="2" Content="Login"
+                HorizontalAlignment="Center" VerticalAlignment="Center"
+                Padding="2"  Margin="5"
+                IsDefault="True"
+                Command="{Binding LoginCommand}"
+                CommandParameter="{Binding ElementName=txtPassword}"/>
     </Grid>
 </Window>

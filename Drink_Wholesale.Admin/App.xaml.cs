@@ -6,6 +6,7 @@ using AutoMapper;
 using Drink_Wholesale.Admin.Model;
 using Drink_Wholesale.Admin.View;
 using Drink_Wholesale.Admin.ViewModel;
+using ELTE.TodoList.Desktop.ViewModel;
 
 namespace Drink_Wholesale.Admin
 {
@@ -53,29 +54,31 @@ namespace Drink_Wholesale.Admin
            
 
             _orderViewModel = new OrderWindowViewModel(_service, _mapper);
+            _orderViewModel.MessageApplication += MessageApplication;
 
             _mainViewModel = new MainViewModel(_service, _mapper);
             _mainViewModel.StartingProductEdit += _mainViewModel_StartingProductEdit;
             _mainViewModel.FinishingProductEdit += _mainViewModel_FinishingProductEdit;
             _mainViewModel.RequestingOrdersWindow += _mainViewModel_RequestingOrdersWindow;
-            _mainViewModel.MessageApplication += _mainViewModel_MessageApplication;    
+            _mainViewModel.MessageApplication += MessageApplication;    
             _mainView = new View.MainWindow
             {
                 DataContext = _mainViewModel
             };
-            _mainView.Show();
+            _loginWindow.Show();
         }
 
 
 
         private void _loginViewModel_LoginFailed(object? sender, EventArgs e)
         {
-            MessageBox.Show("Login unsuccessful!", "DrinkWholeSale", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+            MessageBox.Show("Hibás felhasználónév/jelszó!", "DrinkWholeSale", MessageBoxButton.OK, MessageBoxImage.Asterisk);
         }
 
         private void _loginViewModel_LoginSucceeded(object? sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            _loginWindow.Hide();
+            _mainView.Show();
         }
 
         private void _mainViewModel_RequestingOrdersWindow(object? sender, EventArgs e)
@@ -104,7 +107,7 @@ namespace Drink_Wholesale.Admin
             _productEditorWindow.ShowDialog();
         }
 
-        private void _mainViewModel_MessageApplication(object? sender, ELTE.TodoList.Desktop.ViewModel.MessageEventArgs e)
+        private void MessageApplication(object? sender, ELTE.TodoList.Desktop.ViewModel.MessageEventArgs e)
         {
             MessageBox.Show(e.Message, "DrinkWholeSale", MessageBoxButton.OK, MessageBoxImage.Asterisk);
         }
